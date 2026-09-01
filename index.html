@@ -868,7 +868,8 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
 .case__stack button:hover img{transform:scale(1.03)}
 @media (min-width:640px){
   .case__stack{grid-template-columns:1fr 1fr}
-  .case__stack > :first-child{grid-column:1/-1}
+  /* the two detail plates pair up; the finished relief runs full width */
+  .case__stack > :last-child{grid-column:1/-1}
 }
 .case__title{margin-top:1rem}
 .case__client{
@@ -2145,31 +2146,19 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
       <div class="case__media reveal">
         <div class="case__stack">
           <figure>
-            <button type="button" class="case-open" data-index="0" aria-label="Zvětšit fotografii — praskliny v reliéfu před restaurováním">
+            <button type="button" class="case-open" data-index="0" aria-label="Zvětšit fotodokumentaci — praskliny v reliéfu před restaurováním">
               <img src="assets/img/frantisek-bilek-posledni-vecere-01.jpg" width="1400" height="944" loading="lazy" decoding="async"
                    alt="Detail praskliny procházející řezaným nápisem a postavami reliéfu Poslední večeře před restaurováním">
             </button>
           </figure>
           <figure>
-            <button type="button" class="case-open" data-index="1" aria-label="Zvětšit fotografii — reliéf v ateliéru">
-              <img src="assets/img/frantisek-bilek-posledni-vecere-02.jpg" width="1400" height="944" loading="lazy" decoding="async"
-                   alt="Dřevěný reliéf Poslední večeře Františka Bílka v restaurátorském ateliéru">
-            </button>
-          </figure>
-          <figure>
-            <button type="button" class="case-open" data-index="2" aria-label="Zvětšit fotografii — stažení spáry ztužidly">
-              <img src="assets/img/frantisek-bilek-posledni-vecere-03.jpg" width="1400" height="944" loading="lazy" decoding="async"
-                   alt="Sklížená spára reliéfu stažená ztužidly během restaurování">
-            </button>
-          </figure>
-          <figure>
-            <button type="button" class="case-open" data-index="3" aria-label="Zvětšit fotografii — motýlový spoj na rubu">
+            <button type="button" class="case-open" data-index="3" aria-label="Zvětšit fotodokumentaci — motýlový spoj na rubu reliéfu">
               <img src="assets/img/frantisek-bilek-posledni-vecere-04.jpg" width="1400" height="944" loading="lazy" decoding="async"
                    alt="Zadní strana reliéfu se smrkovým rámem a vsazeným motýlovým spojem">
             </button>
           </figure>
           <figure>
-            <button type="button" class="case-open" data-index="4" aria-label="Zvětšit fotografii — reliéf po přeleštění">
+            <button type="button" class="case-open" data-index="4" aria-label="Zvětšit fotodokumentaci — reliéf po přeleštění">
               <img src="assets/img/frantisek-bilek-posledni-vecere-05.jpg" width="1400" height="944" loading="lazy" decoding="async"
                    alt="Reliéf Poslední večeře po scelení spáry a přeleštění do sametového lesku">
             </button>
@@ -2980,10 +2969,20 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
     });
   });
 
-  /* open from the case study — captions belong to these five photographs */
-  var bilek = $$(".case__stack img").map(function (img) {
-    return { src: img.getAttribute("src"), alt: img.getAttribute("alt") };
-  });
+  /* open from the case study — the page shows three plates, the lightbox
+     carries the whole report; data-index on each button points into this list */
+  var bilek = [
+    { src: "assets/img/frantisek-bilek-posledni-vecere-01.jpg",
+      alt: "Detail praskliny procházející řezaným nápisem a postavami reliéfu Poslední večeře před restaurováním" },
+    { src: "assets/img/frantisek-bilek-posledni-vecere-02.jpg",
+      alt: "Dřevěný reliéf Poslední večeře Františka Bílka v restaurátorském ateliéru" },
+    { src: "assets/img/frantisek-bilek-posledni-vecere-03.jpg",
+      alt: "Sklížená spára reliéfu stažená ztužidly během restaurování" },
+    { src: "assets/img/frantisek-bilek-posledni-vecere-04.jpg",
+      alt: "Zadní strana reliéfu se smrkovým rámem a vsazeným motýlovým spojem" },
+    { src: "assets/img/frantisek-bilek-posledni-vecere-05.jpg",
+      alt: "Reliéf Poslední večeře po scelení spáry a přeleštění do sametového lesku" }
+  ];
 
   $$(".case-open").forEach(function (btn) {
     btn.addEventListener("click", function () {
