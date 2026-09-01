@@ -18,6 +18,51 @@
 <meta property="og:image" content="assets/img/michal-ricica-fb.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://ebenist.net/#business",
+      "name": "Michal Řičica — ebenist & restaurátor",
+      "url": "https://ebenist.net/",
+      "description": "Umělecký truhlář a restaurátor historického nábytku. Ruční repase, opravy intarzií, šelakové povrchy, repliky a autorský nábytek. Praha, od roku 1988.",
+      "image": "https://ebenist.net/assets/img/michal-ricica-fb.jpg",
+      "telephone": "+420777183280",
+      "email": "ebenist@centrum.cz",
+      "foundingDate": "1988",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Spálená 9",
+        "postalCode": "110 00",
+        "addressLocality": "Praha 1",
+        "addressCountry": "CZ"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Michal Řičica"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://ebenist.net/#website",
+      "url": "https://ebenist.net/",
+      "name": "Michal Řičica — ebenist & restaurátor",
+      "inLanguage": "cs-CZ",
+      "publisher": { "@id": "https://ebenist.net/#business" },
+      "creator": {
+        "@type": "Organization",
+        "@id": "https://philoagency.com/#organization",
+        "name": "Philo Agency",
+        "url": "https://philoagency.com/"
+      }
+    }
+  ]
+}
+</script>
+
 <!-- Favicon: MŘ monogram, brass on walnut -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231E1713'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='30' fill='%239A7B45' text-anchor='middle'%3EMŘ%3C/text%3E%3C/svg%3E">
 
@@ -1026,6 +1071,16 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
 .totop{display:inline-flex;align-items:center;gap:.55rem;letter-spacing:.16em;text-transform:uppercase}
 .totop svg{width:.85rem;height:.85rem;transition:transform .35s var(--ease-out)}
 .totop:hover svg{transform:translateY(-3px)}
+.footer-credit{
+  margin-top:1.5rem;
+  font-size:.74rem;letter-spacing:.1em;
+  color:rgba(244,239,230,.55);
+}
+.footer-credit a{
+  border-bottom:1px solid rgba(244,239,230,.22);padding-bottom:.15em;
+  transition:color .3s var(--ease-ui),border-color .3s var(--ease-ui);
+}
+.footer-credit a:hover,.footer-credit a:focus-visible{color:var(--brass);border-color:var(--brass)}
 
 /* ==========================================================================
    15. SCROLL REVEAL
@@ -2477,6 +2532,9 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
         Nahoru
       </a>
     </div>
+    <p class="footer-credit">
+      Web vytvořila <a href="https://philoagency.com/" rel="noopener">Philo Agency</a>
+    </p>
   </div>
 </footer>
 
