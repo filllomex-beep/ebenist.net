@@ -10,3 +10,4 @@ node_modules/
 
 # interní playbook, není součástí webu
 CLAUDE_14.md
+.env*
