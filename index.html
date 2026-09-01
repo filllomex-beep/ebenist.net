@@ -675,24 +675,48 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
 .filter[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
 .works{
-  display:grid;gap:clamp(1.5rem,2.6vw,2.5rem);
-  grid-template-columns:repeat(auto-fill,minmax(min(100%,20rem),1fr));
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  column-gap:clamp(1.25rem,2vw,2rem);
+  row-gap:clamp(2.25rem,3.6vw,3.5rem);
 }
 .work{
-  grid-column:span 1;
+  grid-column:span 6;
   opacity:1;transform:none;
   transition:opacity .35s var(--ease-ui),transform .35s var(--ease-ui);
 }
-.work.is-out{opacity:0;transform:scale(.97);pointer-events:none}
+.work.is-out{opacity:0;transform:translateY(8px);pointer-events:none}
 .work.is-gone{display:none}
+
+/* two large plates for the featured six, three-up for the archive below —
+   every row fills, so the grid never breaks into orphan gaps */
+@media (min-width:640px){
+  .work{grid-column:span 3}
+}
+@media (min-width:1040px){
+  .work--archive{grid-column:span 2}
+  /* a filtered view mixes both sizes — flatten it to one calm rhythm */
+  .works.is-flat .work{grid-column:span 2}
+}
+
+.works__sep{
+  grid-column:1/-1;
+  display:flex;align-items:center;gap:1.1rem;
+  margin-top:clamp(.5rem,1.5vw,1.5rem);
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+.works__sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.works__sep.is-gone{display:none}
+
 .works__more{
   display:flex;justify-content:center;
-  margin-top:clamp(2.5rem,5vh,4rem);
+  margin-top:clamp(2.75rem,5vh,4.5rem);
 }
-/* every 7th project runs wide — asymmetric rhythm, never a plain uniform grid */
-@media (min-width:900px){
-  .work--wide{grid-column:span 2}
-}
+.works__more[hidden]{display:none}
+.works__more svg{transition:transform .45s var(--ease-out)}
+.works__more.is-open svg{transform:rotate(45deg)}
+
 .work__btn{
   display:block;width:100%;text-align:left;cursor:pointer;
 }
@@ -700,9 +724,15 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   display:block;position:relative;overflow:hidden;
   background:#fff;
   box-shadow:inset 0 0 0 1px var(--line);
-  aspect-ratio:3/2;border-radius:var(--radius);
+  /* the archival plates are 1400x943 — match them exactly so nothing crops */
+  aspect-ratio:1400/943;border-radius:var(--radius);
+  transition:transform .55s var(--ease-out),box-shadow .55s var(--ease-ui);
 }
-.work--wide .work__frame{aspect-ratio:3/2}
+.work__btn:hover .work__frame,
+.work__btn:focus-visible .work__frame{
+  transform:translateY(-5px);
+  box-shadow:inset 0 0 0 1px var(--line-strong),0 24px 44px -30px rgba(30,23,19,.6);
+}
 .work__frame img{
   width:100%;height:100%;object-fit:cover;
   transform:scale(1.001);
@@ -710,7 +740,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   filter:saturate(.92);
 }
 .work__btn:hover .work__frame img,
-.work__btn:focus-visible .work__frame img{transform:scale(1.045);filter:saturate(1)}
+.work__btn:focus-visible .work__frame img{transform:scale(1.022);filter:saturate(1)}
 .work__count{
   position:absolute;right:.85rem;bottom:.85rem;z-index:2;
   display:inline-flex;align-items:center;gap:.4rem;
@@ -744,6 +774,14 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   color:var(--ink-3);white-space:nowrap;padding-top:.25rem;
 }
 .work__note{display:block;font-size:.86rem;color:var(--ink-3);padding-top:.3rem;line-height:1.55;max-width:46ch}
+
+/* the archive — and any filtered view — reads as a catalogue, not a feature */
+.work--archive .work__meta,
+.works.is-flat .work__meta{padding-top:.8rem}
+.work--archive .work__title,
+.works.is-flat .work__title{font-size:1.06rem}
+.work--archive .work__note,
+.works.is-flat .work__note{display:none}
 
 /* Lightbox */
 .lb{
@@ -1160,6 +1198,16 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   </div>
 </header>
 
+<noscript>
+  <style>
+    /* without JS the archive stays open and the toggle is meaningless */
+    .reveal{opacity:1;transform:none}
+    .work.is-gone{display:block}
+    .works__sep.is-gone{display:flex}
+    .works__more{display:none}
+  </style>
+</noscript>
+
 <main id="uvod" tabindex="-1" style="outline:none">
 
 <!-- ==========================================================================
@@ -1387,6 +1435,11 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
 <!-- ==========================================================================
      DÍLO — projects. Each card carries its own gallery in data-images;
      the lightbox reads it from there. To edit a project, edit this block only.
+
+     The first six cards (work--feature) are the ones the page shows; everything
+     after the divider (work--archive) stays folded away until "Zobrazit všech…"
+     is pressed. To promote a project, move its <article> above the divider and
+     swap its class — the JS counts, it does not care which project is where.
      ========================================================================== -->
 <section class="section" id="dilo">
   <div class="container">
@@ -1411,7 +1464,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
     </div>
 
     <div class="works" id="works">
-      <article data-initial="1" class="work reveal work--wide" data-cat="restaurovani" style="--d:0.0s">
+      <article class="work work--feature reveal" data-cat="restaurovani" style="--d:0.00s">
         <button class="work__btn" type="button"
                 data-title="Zárubně vstupních dveří, Národní muzeum"
                 data-cat-label="Restaurování"
@@ -1432,7 +1485,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Spolupráce na restaurování vchodových dveří do Národního muzea v Praze — zárubně, řezby, okna.</span>
         </button>
       </article>
-      <article data-initial="1" class="work reveal work--wide" data-cat="restaurovani" style="--d:0.07s">
+      <article class="work work--feature reveal" data-cat="restaurovani" style="--d:0.07s">
         <button class="work__btn" type="button"
                 data-title="Kaple Trauttmannsdorfského paláce"
                 data-cat-label="Restaurování"
@@ -1454,323 +1507,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Restaurování dřevěného mobiliáře a vybavení palácové kaple.</span>
         </button>
       </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Vrata, Stará Boleslav"
-                data-cat-label="Restaurování"
-                data-note="Repase historických vrat."
-                data-alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi"
-                data-images="assets/img/vrata-stara-boleslav-01.jpg|assets/img/vrata-stara-boleslav-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/vrata-stara-boleslav-01.jpg" alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Vrata, Stará Boleslav</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase historických vrat.</span>
-        </button>
-      </article>
-      <article data-initial="1" class="work reveal" data-cat="restaurovani" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Barokní komoda, soukromá sbírka"
-                data-cat-label="Restaurování"
-                data-note="Kompletní repase včetně dýhovaných ploch a kování."
-                data-alt="Restaurovaná barokní komoda s dýhovanou přední stranou ze soukromé sbírky"
-                data-images="assets/img/barokni-komoda-soukroma-sbirka-01.jpg|assets/img/barokni-komoda-soukroma-sbirka-02.jpg|assets/img/barokni-komoda-soukroma-sbirka-03.jpg|assets/img/barokni-komoda-soukroma-sbirka-04.jpg|assets/img/barokni-komoda-soukroma-sbirka-05.jpg|assets/img/barokni-komoda-soukroma-sbirka-06.jpg">
-          <span class="work__frame">
-            <img src="assets/img/barokni-komoda-soukroma-sbirka-01.jpg" alt="Restaurovaná barokní komoda s dýhovanou přední stranou ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              6 fotografií
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Barokní komoda, soukromá sbírka</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Kompletní repase včetně dýhovaných ploch a kování.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Barokní komoda — rozebraný korpus"
-                data-cat-label="Restaurování"
-                data-note="Rozebrání, sklížení a obnova šelakového povrchu."
-                data-alt="Rozebraná barokní komoda s vyjmutými zásuvkami v restaurátorské dílně"
-                data-images="assets/img/barokni-komoda-01.jpg|assets/img/barokni-komoda-02.jpg|assets/img/barokni-komoda-03.jpg|assets/img/barokni-komoda-04.jpg">
-          <span class="work__frame">
-            <img src="assets/img/barokni-komoda-01.jpg" alt="Rozebraná barokní komoda s vyjmutými zásuvkami v restaurátorské dílně" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              4 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Barokní komoda — rozebraný korpus</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Rozebrání, sklížení a obnova šelakového povrchu.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Komoda, klášter Znojemské Hradiště"
-                data-cat-label="Restaurování"
-                data-note="Restaurování mobiliáře klášterního interiéru."
-                data-alt="Restaurovaná komoda z kláštera Znojemské Hradiště"
-                data-start="1"
-                data-images="assets/img/komoda-klaster-znojemske-hradiste-01.jpg|assets/img/komoda-klaster-znojemske-hradiste-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/komoda-klaster-znojemske-hradiste-02.jpg" alt="Restaurovaná komoda z kláštera Znojemské Hradiště" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Komoda, klášter Znojemské Hradiště</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování mobiliáře klášterního interiéru.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Vchodové dveře, Česká spořitelna — Rytířská"
-                data-cat-label="Restaurování"
-                data-note="Repase vstupních dveří bankovní budovy."
-                data-alt="Restaurované vchodové dveře budovy České spořitelny v Rytířské ulici"
-                data-images="assets/img/sporitelna-rytirska-01.jpg|assets/img/sporitelna-rytirska-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/sporitelna-rytirska-01.jpg" alt="Restaurované vchodové dveře budovy České spořitelny v Rytířské ulici" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Vchodové dveře, Česká spořitelna — Rytířská</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase vstupních dveří bankovní budovy.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Domovní dveře, Templová"
-                data-cat-label="Restaurování"
-                data-note="Repase domovních dveří v historickém jádru Prahy."
-                data-alt="Restaurované historické domovní dveře v Templové ulici v Praze"
-                data-images="assets/img/templova-01.jpg|assets/img/templova-02.jpg|assets/img/templova-03.jpg">
-          <span class="work__frame">
-            <img src="assets/img/templova-01.jpg" alt="Restaurované historické domovní dveře v Templové ulici v Praze" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              3 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Domovní dveře, Templová</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase domovních dveří v historickém jádru Prahy.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Domovní dveře, Šeříková"
-                data-cat-label="Restaurování"
-                data-note="Repase domovních dveří v historickém jádru Prahy."
-                data-alt="Restaurované historické domovní dveře v Šeříkové ulici v Praze"
-                data-images="assets/img/serikova.jpg">
-          <span class="work__frame">
-            <img src="assets/img/serikova.jpg" alt="Restaurované historické domovní dveře v Šeříkové ulici v Praze" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Domovní dveře, Šeříková</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase domovních dveří v historickém jádru Prahy.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Malovaná skříň, soukromá sbírka"
-                data-cat-label="Restaurování"
-                data-note="Restaurování dřeva a fixace původní malby."
-                data-alt="Restaurovaná lidová malovaná skříň ze soukromé sbírky"
-                data-images="assets/img/skrin-malovana-01.jpg|assets/img/skrin-malovana-02.jpg|assets/img/skrin-malovana-03.jpg">
-          <span class="work__frame">
-            <img src="assets/img/skrin-malovana-01.jpg" alt="Restaurovaná lidová malovaná skříň ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              3 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Malovaná skříň, soukromá sbírka</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování dřeva a fixace původní malby.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Malovaná truhla, soukromá sbírka"
-                data-cat-label="Restaurování"
-                data-note="Restaurování truhlářské konstrukce a povrchu."
-                data-alt="Restaurovaná lidová malovaná truhla ze soukromé sbírky"
-                data-images="assets/img/malovana-truhla-sk.jpg">
-          <span class="work__frame">
-            <img src="assets/img/malovana-truhla-sk.jpg" alt="Restaurovaná lidová malovaná truhla ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Malovaná truhla, soukromá sbírka</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování truhlářské konstrukce a povrchu.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Truhla s ptáčky"
-                data-cat-label="Restaurování"
-                data-note="Restaurování dřevěné truhly s malovaným dekorem."
-                data-alt="Restaurovaná dřevěná truhla s malovaným dekorem ptáků"
-                data-images="assets/img/truhla-s-ptacky-01.jpg|assets/img/truhla-s-ptacky-03.jpg">
-          <span class="work__frame">
-            <img src="assets/img/truhla-s-ptacky-01.jpg" alt="Restaurovaná dřevěná truhla s malovaným dekorem ptáků" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Truhla s ptáčky</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování dřevěné truhly s malovaným dekorem.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Komoda biedermeier, soukromá sbírka"
-                data-cat-label="Restaurování"
-                data-note="Repase dýhy a obnova šelakového povrchu."
-                data-alt="Restaurovaná biedermeierovská komoda ze soukromé sbírky"
-                data-images="assets/img/soukroma-sbirka-komoda-biedermeyer-01.jpg|assets/img/soukroma-sbirka-komoda-biedermeyer-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/soukroma-sbirka-komoda-biedermeyer-01.jpg" alt="Restaurovaná biedermeierovská komoda ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Komoda biedermeier, soukromá sbírka</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase dýhy a obnova šelakového povrchu.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Zrcadlo, soukromá sbírka"
-                data-cat-label="Restaurování"
-                data-note="Restaurování řezaného a zlaceného rámu."
-                data-alt="Restaurovaný zdobný rám historického zrcadla ze soukromé sbírky"
-                data-images="assets/img/zrcadlo-01.jpg|assets/img/zrcadlo-02.jpg|assets/img/zrcadlo-03.jpg">
-          <span class="work__frame">
-            <img src="assets/img/zrcadlo-01.jpg" alt="Restaurovaný zdobný rám historického zrcadla ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              3 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Zrcadlo, soukromá sbírka</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování řezaného a zlaceného rámu.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Orientální truhlice"
-                data-cat-label="Restaurování"
-                data-note="Restaurování vykládané truhlice."
-                data-alt="Restaurovaná orientální truhlice s vykládaným dekorem"
-                data-images="assets/img/orientalni-truhlice-01.jpg|assets/img/orientalni-truhlice-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/orientalni-truhlice-01.jpg" alt="Restaurovaná orientální truhlice s vykládaným dekorem" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Orientální truhlice</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování vykládané truhlice.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Stolek, soukromá sbírka"
-                data-cat-label="Restaurování"
-                data-note="Repase konstrukce a povrchové úpravy."
-                data-alt="Restaurovaný historický stolek ze soukromé sbírky"
-                data-images="assets/img/stolek-01.jpg">
-          <span class="work__frame">
-            <img src="assets/img/stolek-01.jpg" alt="Restaurovaný historický stolek ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Stolek, soukromá sbírka</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase konstrukce a povrchové úpravy.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Kovový trezor"
-                data-cat-label="Restaurování"
-                data-note="Obnova historického trezoru včetně povrchu."
-                data-alt="Restaurovaný historický kovový trezor"
-                data-images="assets/img/kovovy-trezor.jpg">
-          <span class="work__frame">
-            <img src="assets/img/kovovy-trezor.jpg" alt="Restaurovaný historický kovový trezor" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Kovový trezor</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Obnova historického trezoru včetně povrchu.</span>
-        </button>
-      </article>
-      <article data-initial="1" class="work reveal work--wide" data-cat="autorsky" style="--d:0.14s">
+      <article class="work work--feature reveal" data-cat="autorsky" style="--d:0.00s">
         <button class="work__btn" type="button"
                 data-title="Židle — vlastní design"
                 data-cat-label="Autorský nábytek"
@@ -1792,7 +1529,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Autorská řada židlí, od dýhování a tvarování opěradla po finální povrch.</span>
         </button>
       </article>
-      <article data-initial="1" class="work reveal" data-cat="autorsky" style="--d:0.0s">
+      <article class="work work--feature reveal" data-cat="autorsky" style="--d:0.07s">
         <button class="work__btn" type="button"
                 data-title="Řečnický pult pro Ministerstvo zahraničních věcí"
                 data-cat-label="Autorský nábytek"
@@ -1814,196 +1551,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Autorský návrh a výroba.</span>
         </button>
       </article>
-      <article class="work reveal" data-cat="autorsky" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Regály pro knihkupectví Paseka"
-                data-cat-label="Autorský nábytek"
-                data-note="Interiérová vestavba knihkupectví."
-                data-alt="Dřevěné knihovní regály vyrobené pro knihkupectví Paseka"
-                data-images="assets/img/knihkupectvi-regaly-paseka-01.jpg|assets/img/knihkupectvi-regaly-paseka-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/knihkupectvi-regaly-paseka-01.jpg" alt="Dřevěné knihovní regály vyrobené pro knihkupectví Paseka" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Regály pro knihkupectví Paseka</span>
-            <span class="work__cat">Autorský nábytek</span>
-          </span>
-          <span class="work__note">Interiérová vestavba knihkupectví.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="autorsky" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Sloupky Danhauser"
-                data-cat-label="Autorský nábytek"
-                data-note="Soustružené a řezané sloupky."
-                data-alt="Soustružené dřevěné sloupky v provedení Danhauser"
-                data-images="assets/img/sloupek-01.jpg|assets/img/sloupek-02.jpg|assets/img/sloupek-03.jpg|assets/img/sloupek-04.jpg">
-          <span class="work__frame">
-            <img src="assets/img/sloupek-01.jpg" alt="Soustružené dřevěné sloupky v provedení Danhauser" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              4 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Sloupky Danhauser</span>
-            <span class="work__cat">Autorský nábytek</span>
-          </span>
-          <span class="work__note">Soustružené a řezané sloupky.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="autorsky" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Skříňka — Gerrit Thomas Rietveld"
-                data-cat-label="Autorský nábytek"
-                data-note="Provedení podle návrhu Gerrita Thomase Rietvelda."
-                data-alt="Dřevěná skříňka vyrobená podle návrhu Gerrita Thomase Rietvelda"
-                data-images="assets/img/skrinka-Gerrit-Thomas-Rietveld-01.jpg|assets/img/skrinka-Gerrit-Thomas-Rietveld-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/skrinka-Gerrit-Thomas-Rietveld-01.jpg" alt="Dřevěná skříňka vyrobená podle návrhu Gerrita Thomase Rietvelda" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Skříňka — Gerrit Thomas Rietveld</span>
-            <span class="work__cat">Autorský nábytek</span>
-          </span>
-          <span class="work__note">Provedení podle návrhu Gerrita Thomase Rietvelda.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="autorsky" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Stůl — vlastní design"
-                data-cat-label="Autorský nábytek"
-                data-note="Autorský návrh a výroba jídelního stolu."
-                data-alt="Jídelní stůl vlastního designu Michala Řičici"
-                data-images="assets/img/stul-vlastni-design.jpg">
-          <span class="work__frame">
-            <img src="assets/img/stul-vlastni-design.jpg" alt="Jídelní stůl vlastního designu Michala Řičici" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Stůl — vlastní design</span>
-            <span class="work__cat">Autorský nábytek</span>
-          </span>
-          <span class="work__note">Autorský návrh a výroba jídelního stolu.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="autorsky" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Postel — vlastní design"
-                data-cat-label="Autorský nábytek"
-                data-note="Autorský návrh a výroba postele."
-                data-alt="Dřevěná postel vlastního designu Michala Řičici"
-                data-images="assets/img/postel-vlastni-design.jpg">
-          <span class="work__frame">
-            <img src="assets/img/postel-vlastni-design.jpg" alt="Dřevěná postel vlastního designu Michala Řičici" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Postel — vlastní design</span>
-            <span class="work__cat">Autorský nábytek</span>
-          </span>
-          <span class="work__note">Autorský návrh a výroba postele.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="autorsky" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Jelen"
-                data-cat-label="Autorský nábytek"
-                data-note="Řezaný dřevěný objekt."
-                data-alt="Řezaný dřevěný objekt jelena"
-                data-images="assets/img/jelen-dreveny.jpg">
-          <span class="work__frame">
-            <img src="assets/img/jelen-dreveny.jpg" alt="Řezaný dřevěný objekt jelena" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Jelen</span>
-            <span class="work__cat">Autorský nábytek</span>
-          </span>
-          <span class="work__note">Řezaný dřevěný objekt.</span>
-        </button>
-      </article>
-      <article data-initial="1" class="work reveal" data-cat="repliky" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Židle — replika"
-                data-cat-label="Repliky"
-                data-note="Replika historické židle zhotovená podle originálu."
-                data-alt="Repliky historických židlí s vyřezávaným opěradlem v dílně"
-                data-images="assets/img/zidle-replika-01.jpg|assets/img/zidle-replika-02.jpg|assets/img/zidle-replika-03.jpg">
-          <span class="work__frame">
-            <img src="assets/img/zidle-replika-01.jpg" alt="Repliky historických židlí s vyřezávaným opěradlem v dílně" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              3 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Židle — replika</span>
-            <span class="work__cat">Repliky</span>
-          </span>
-          <span class="work__note">Replika historické židle zhotovená podle originálu.</span>
-        </button>
-      </article>
-      <article data-initial="1" class="work reveal" data-cat="repliky" style="--d:0.14s">
-        <button class="work__btn" type="button"
-                data-title="Hodiny — replika"
-                data-cat-label="Repliky"
-                data-note="Replika dřevěné skříně hodin."
-                data-alt="Replika dřevěné skříně historických hodin"
-                data-images="assets/img/hodiny-replika.jpg">
-          <span class="work__frame">
-            <img src="assets/img/hodiny-replika.jpg" alt="Replika dřevěné skříně historických hodin" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Hodiny — replika</span>
-            <span class="work__cat">Repliky</span>
-          </span>
-          <span class="work__note">Replika dřevěné skříně hodin.</span>
-        </button>
-      </article>
-      <article class="work reveal" data-cat="repliky" style="--d:0.0s">
-        <button class="work__btn" type="button"
-                data-title="Stolek — kopie Gočár"
-                data-cat-label="Repliky"
-                data-note="Kopie stolku podle návrhu Josefa Gočára."
-                data-alt="Kopie stolku podle návrhu Josefa Gočára"
-                data-images="assets/img/stolek-kopie-gocar.jpg">
-          <span class="work__frame">
-            <img src="assets/img/stolek-kopie-gocar.jpg" alt="Kopie stolku podle návrhu Josefa Gočára" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              1 fotografie
-            </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Stolek — kopie Gočár</span>
-            <span class="work__cat">Repliky</span>
-          </span>
-          <span class="work__note">Kopie stolku podle návrhu Josefa Gočára.</span>
-        </button>
-      </article>
-      <article data-initial="1" class="work reveal work--wide" data-cat="modely" style="--d:0.07s">
+      <article class="work work--feature reveal" data-cat="modely" style="--d:0.00s">
         <button class="work__btn" type="button"
                 data-title="Modely židovské synagogy"
                 data-cat-label="Modely"
@@ -2025,7 +1573,513 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Modely pro výstavu v synagoze Nová Cerekev — devět modelů synagog pro Židovské muzeum.</span>
         </button>
       </article>
-      <article class="work reveal" data-cat="modely" style="--d:0.14s">
+      <article class="work work--feature reveal" data-cat="repliky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Hodiny — replika"
+                data-cat-label="Repliky"
+                data-note="Replika dřevěné skříně hodin."
+                data-alt="Replika dřevěné skříně historických hodin"
+                data-images="assets/img/hodiny-replika.jpg">
+          <span class="work__frame">
+            <img src="assets/img/hodiny-replika.jpg" alt="Replika dřevěné skříně historických hodin" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Hodiny — replika</span>
+            <span class="work__cat">Repliky</span>
+          </span>
+          <span class="work__note">Replika dřevěné skříně hodin.</span>
+        </button>
+      </article>
+      <div class="works__sep is-gone" id="works-sep" aria-hidden="true"><span>Kompletní archiv</span></div>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Vrata, Stará Boleslav"
+                data-cat-label="Restaurování"
+                data-note="Repase historických vrat."
+                data-alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi"
+                data-images="assets/img/vrata-stara-boleslav-01.jpg|assets/img/vrata-stara-boleslav-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/vrata-stara-boleslav-01.jpg" alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Vrata, Stará Boleslav</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase historických vrat.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Barokní komoda, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Kompletní repase včetně dýhovaných ploch a kování."
+                data-alt="Restaurovaná barokní komoda s dýhovanou přední stranou ze soukromé sbírky"
+                data-images="assets/img/barokni-komoda-soukroma-sbirka-01.jpg|assets/img/barokni-komoda-soukroma-sbirka-02.jpg|assets/img/barokni-komoda-soukroma-sbirka-03.jpg|assets/img/barokni-komoda-soukroma-sbirka-04.jpg|assets/img/barokni-komoda-soukroma-sbirka-05.jpg|assets/img/barokni-komoda-soukroma-sbirka-06.jpg">
+          <span class="work__frame">
+            <img src="assets/img/barokni-komoda-soukroma-sbirka-01.jpg" alt="Restaurovaná barokní komoda s dýhovanou přední stranou ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              6 fotografií
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Barokní komoda, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Kompletní repase včetně dýhovaných ploch a kování.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Barokní komoda — rozebraný korpus"
+                data-cat-label="Restaurování"
+                data-note="Rozebrání, sklížení a obnova šelakového povrchu."
+                data-alt="Rozebraná barokní komoda s vyjmutými zásuvkami v restaurátorské dílně"
+                data-images="assets/img/barokni-komoda-01.jpg|assets/img/barokni-komoda-02.jpg|assets/img/barokni-komoda-03.jpg|assets/img/barokni-komoda-04.jpg">
+          <span class="work__frame">
+            <img src="assets/img/barokni-komoda-01.jpg" alt="Rozebraná barokní komoda s vyjmutými zásuvkami v restaurátorské dílně" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              4 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Barokní komoda — rozebraný korpus</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Rozebrání, sklížení a obnova šelakového povrchu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Komoda, klášter Znojemské Hradiště"
+                data-cat-label="Restaurování"
+                data-note="Restaurování mobiliáře klášterního interiéru."
+                data-alt="Restaurovaná komoda z kláštera Znojemské Hradiště"
+                data-start="1"
+                data-images="assets/img/komoda-klaster-znojemske-hradiste-01.jpg|assets/img/komoda-klaster-znojemske-hradiste-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/komoda-klaster-znojemske-hradiste-02.jpg" alt="Restaurovaná komoda z kláštera Znojemské Hradiště" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Komoda, klášter Znojemské Hradiště</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování mobiliáře klášterního interiéru.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Vchodové dveře, Česká spořitelna — Rytířská"
+                data-cat-label="Restaurování"
+                data-note="Repase vstupních dveří bankovní budovy."
+                data-alt="Restaurované vchodové dveře budovy České spořitelny v Rytířské ulici"
+                data-images="assets/img/sporitelna-rytirska-01.jpg|assets/img/sporitelna-rytirska-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/sporitelna-rytirska-01.jpg" alt="Restaurované vchodové dveře budovy České spořitelny v Rytířské ulici" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Vchodové dveře, Česká spořitelna — Rytířská</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase vstupních dveří bankovní budovy.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Domovní dveře, Templová"
+                data-cat-label="Restaurování"
+                data-note="Repase domovních dveří v historickém jádru Prahy."
+                data-alt="Restaurované historické domovní dveře v Templové ulici v Praze"
+                data-images="assets/img/templova-01.jpg|assets/img/templova-02.jpg|assets/img/templova-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/templova-01.jpg" alt="Restaurované historické domovní dveře v Templové ulici v Praze" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Domovní dveře, Templová</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase domovních dveří v historickém jádru Prahy.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Domovní dveře, Šeříková"
+                data-cat-label="Restaurování"
+                data-note="Repase domovních dveří v historickém jádru Prahy."
+                data-alt="Restaurované historické domovní dveře v Šeříkové ulici v Praze"
+                data-images="assets/img/serikova.jpg">
+          <span class="work__frame">
+            <img src="assets/img/serikova.jpg" alt="Restaurované historické domovní dveře v Šeříkové ulici v Praze" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Domovní dveře, Šeříková</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase domovních dveří v historickém jádru Prahy.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Malovaná skříň, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Restaurování dřeva a fixace původní malby."
+                data-alt="Restaurovaná lidová malovaná skříň ze soukromé sbírky"
+                data-images="assets/img/skrin-malovana-01.jpg|assets/img/skrin-malovana-02.jpg|assets/img/skrin-malovana-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/skrin-malovana-01.jpg" alt="Restaurovaná lidová malovaná skříň ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Malovaná skříň, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování dřeva a fixace původní malby.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Malovaná truhla, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Restaurování truhlářské konstrukce a povrchu."
+                data-alt="Restaurovaná lidová malovaná truhla ze soukromé sbírky"
+                data-images="assets/img/malovana-truhla-sk.jpg">
+          <span class="work__frame">
+            <img src="assets/img/malovana-truhla-sk.jpg" alt="Restaurovaná lidová malovaná truhla ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Malovaná truhla, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování truhlářské konstrukce a povrchu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Truhla s ptáčky"
+                data-cat-label="Restaurování"
+                data-note="Restaurování dřevěné truhly s malovaným dekorem."
+                data-alt="Restaurovaná dřevěná truhla s malovaným dekorem ptáků"
+                data-images="assets/img/truhla-s-ptacky-01.jpg|assets/img/truhla-s-ptacky-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/truhla-s-ptacky-01.jpg" alt="Restaurovaná dřevěná truhla s malovaným dekorem ptáků" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Truhla s ptáčky</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování dřevěné truhly s malovaným dekorem.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Komoda biedermeier, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Repase dýhy a obnova šelakového povrchu."
+                data-alt="Restaurovaná biedermeierovská komoda ze soukromé sbírky"
+                data-images="assets/img/soukroma-sbirka-komoda-biedermeyer-01.jpg|assets/img/soukroma-sbirka-komoda-biedermeyer-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/soukroma-sbirka-komoda-biedermeyer-01.jpg" alt="Restaurovaná biedermeierovská komoda ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Komoda biedermeier, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase dýhy a obnova šelakového povrchu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Zrcadlo, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Restaurování řezaného a zlaceného rámu."
+                data-alt="Restaurovaný zdobný rám historického zrcadla ze soukromé sbírky"
+                data-images="assets/img/zrcadlo-01.jpg|assets/img/zrcadlo-02.jpg|assets/img/zrcadlo-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/zrcadlo-01.jpg" alt="Restaurovaný zdobný rám historického zrcadla ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Zrcadlo, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování řezaného a zlaceného rámu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Orientální truhlice"
+                data-cat-label="Restaurování"
+                data-note="Restaurování vykládané truhlice."
+                data-alt="Restaurovaná orientální truhlice s vykládaným dekorem"
+                data-images="assets/img/orientalni-truhlice-01.jpg|assets/img/orientalni-truhlice-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/orientalni-truhlice-01.jpg" alt="Restaurovaná orientální truhlice s vykládaným dekorem" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Orientální truhlice</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování vykládané truhlice.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Stolek, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Repase konstrukce a povrchové úpravy."
+                data-alt="Restaurovaný historický stolek ze soukromé sbírky"
+                data-images="assets/img/stolek-01.jpg">
+          <span class="work__frame">
+            <img src="assets/img/stolek-01.jpg" alt="Restaurovaný historický stolek ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Stolek, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase konstrukce a povrchové úpravy.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Kovový trezor"
+                data-cat-label="Restaurování"
+                data-note="Obnova historického trezoru včetně povrchu."
+                data-alt="Restaurovaný historický kovový trezor"
+                data-images="assets/img/kovovy-trezor.jpg">
+          <span class="work__frame">
+            <img src="assets/img/kovovy-trezor.jpg" alt="Restaurovaný historický kovový trezor" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Kovový trezor</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Obnova historického trezoru včetně povrchu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Regály pro knihkupectví Paseka"
+                data-cat-label="Autorský nábytek"
+                data-note="Interiérová vestavba knihkupectví."
+                data-alt="Dřevěné knihovní regály vyrobené pro knihkupectví Paseka"
+                data-images="assets/img/knihkupectvi-regaly-paseka-01.jpg|assets/img/knihkupectvi-regaly-paseka-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/knihkupectvi-regaly-paseka-01.jpg" alt="Dřevěné knihovní regály vyrobené pro knihkupectví Paseka" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Regály pro knihkupectví Paseka</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Interiérová vestavba knihkupectví.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Sloupky Danhauser"
+                data-cat-label="Autorský nábytek"
+                data-note="Soustružené a řezané sloupky."
+                data-alt="Soustružené dřevěné sloupky v provedení Danhauser"
+                data-images="assets/img/sloupek-01.jpg|assets/img/sloupek-02.jpg|assets/img/sloupek-03.jpg|assets/img/sloupek-04.jpg">
+          <span class="work__frame">
+            <img src="assets/img/sloupek-01.jpg" alt="Soustružené dřevěné sloupky v provedení Danhauser" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              4 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Sloupky Danhauser</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Soustružené a řezané sloupky.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Skříňka — Gerrit Thomas Rietveld"
+                data-cat-label="Autorský nábytek"
+                data-note="Provedení podle návrhu Gerrita Thomase Rietvelda."
+                data-alt="Dřevěná skříňka vyrobená podle návrhu Gerrita Thomase Rietvelda"
+                data-images="assets/img/skrinka-Gerrit-Thomas-Rietveld-01.jpg|assets/img/skrinka-Gerrit-Thomas-Rietveld-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/skrinka-Gerrit-Thomas-Rietveld-01.jpg" alt="Dřevěná skříňka vyrobená podle návrhu Gerrita Thomase Rietvelda" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Skříňka — Gerrit Thomas Rietveld</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Provedení podle návrhu Gerrita Thomase Rietvelda.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Stůl — vlastní design"
+                data-cat-label="Autorský nábytek"
+                data-note="Autorský návrh a výroba jídelního stolu."
+                data-alt="Jídelní stůl vlastního designu Michala Řičici"
+                data-images="assets/img/stul-vlastni-design.jpg">
+          <span class="work__frame">
+            <img src="assets/img/stul-vlastni-design.jpg" alt="Jídelní stůl vlastního designu Michala Řičici" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Stůl — vlastní design</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Autorský návrh a výroba jídelního stolu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Postel — vlastní design"
+                data-cat-label="Autorský nábytek"
+                data-note="Autorský návrh a výroba postele."
+                data-alt="Dřevěná postel vlastního designu Michala Řičici"
+                data-images="assets/img/postel-vlastni-design.jpg">
+          <span class="work__frame">
+            <img src="assets/img/postel-vlastni-design.jpg" alt="Dřevěná postel vlastního designu Michala Řičici" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Postel — vlastní design</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Autorský návrh a výroba postele.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Jelen"
+                data-cat-label="Autorský nábytek"
+                data-note="Řezaný dřevěný objekt."
+                data-alt="Řezaný dřevěný objekt jelena"
+                data-images="assets/img/jelen-dreveny.jpg">
+          <span class="work__frame">
+            <img src="assets/img/jelen-dreveny.jpg" alt="Řezaný dřevěný objekt jelena" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Jelen</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Řezaný dřevěný objekt.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="repliky" style="--d:0.00s">
+        <button class="work__btn" type="button"
+                data-title="Židle — replika"
+                data-cat-label="Repliky"
+                data-note="Replika historické židle zhotovená podle originálu."
+                data-alt="Repliky historických židlí s vyřezávaným opěradlem v dílně"
+                data-images="assets/img/zidle-replika-01.jpg|assets/img/zidle-replika-02.jpg|assets/img/zidle-replika-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/zidle-replika-01.jpg" alt="Repliky historických židlí s vyřezávaným opěradlem v dílně" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Židle — replika</span>
+            <span class="work__cat">Repliky</span>
+          </span>
+          <span class="work__note">Replika historické židle zhotovená podle originálu.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="repliky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Stolek — kopie Gočár"
+                data-cat-label="Repliky"
+                data-note="Kopie stolku podle návrhu Josefa Gočára."
+                data-alt="Kopie stolku podle návrhu Josefa Gočára"
+                data-images="assets/img/stolek-kopie-gocar.jpg">
+          <span class="work__frame">
+            <img src="assets/img/stolek-kopie-gocar.jpg" alt="Kopie stolku podle návrhu Josefa Gočára" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Stolek — kopie Gočár</span>
+            <span class="work__cat">Repliky</span>
+          </span>
+          <span class="work__note">Kopie stolku podle návrhu Josefa Gočára.</span>
+        </button>
+      </article>
+      <article class="work work--archive is-gone reveal" data-cat="modely" style="--d:0.14s">
         <button class="work__btn" type="button"
                 data-title="Model auta, 30. léta"
                 data-cat-label="Modely"
@@ -2046,7 +2100,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Velikost 30 cm.</span>
         </button>
       </article>
-      <article class="work reveal" data-cat="modely" style="--d:0.0s">
+      <article class="work work--archive is-gone reveal" data-cat="modely" style="--d:0.00s">
         <button class="work__btn" type="button"
                 data-title="Loutky, soukromá sbírka"
                 data-cat-label="Modely"
@@ -2071,8 +2125,8 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
     </div>
 
     <div class="works__more reveal">
-      <button class="btn btn--ghost" id="works-more" type="button" aria-controls="works">
-        <span>Zobrazit dalších 23 realizací</span>
+      <button class="btn btn--ghost" id="works-more" type="button" aria-controls="works" aria-expanded="false">
+        <span id="works-more-label">Zobrazit v&scaron;ech 31 realizac&iacute;</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
       </button>
     </div>
@@ -2689,64 +2743,85 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
     revealables.forEach(function (el) { revealer.observe(el); });
   }
 
-  /* -------------------------------------------------------- work filtering */
-  var filters = $$(".filter");
-  var works = $$(".work");
+  /* ------------------------------------ work: filters + featured / archive */
+  var worksGrid = $("#works");
+  var filters   = $$(".filter");
+  var works     = $$(".work");
+  var worksSep  = $("#works-sep");
+  var moreWrap  = $(".works__more");
+  var moreBtn   = $("#works-more");
+  var moreLabel = $("#works-more-label");
+
+  var FEATURED = 6;          // how many plates the page shows before the archive
+  var current  = "all";
+  var expanded = false;
+
+  var setShown = function (card, show, instant) {
+    if (show) {
+      card.classList.remove("is-gone");
+      // flush the display change so the fade back in has a start state
+      void card.offsetWidth;
+      card.classList.remove("is-out");
+      card.classList.add("is-in");
+      return;
+    }
+    card.classList.add("is-out");
+    if (instant || reduced.matches) {
+      card.classList.add("is-gone");
+    } else {
+      window.setTimeout(function () {
+        if (card.classList.contains("is-out")) card.classList.add("is-gone");
+      }, 340);
+    }
+  };
+
+  var render = function (instant) {
+    var matching = works.filter(function (card) {
+      return current === "all" || card.dataset.cat === current;
+    });
+    var limit = expanded ? matching.length : FEATURED;
+
+    works.forEach(function (card) {
+      var i = matching.indexOf(card);
+      setShown(card, i > -1 && i < limit, instant);
+    });
+
+    // a filtered view mixes plate sizes — flatten it so no row breaks open
+    worksGrid.classList.toggle("is-flat", current !== "all");
+    if (worksSep) worksSep.classList.toggle("is-gone", !(expanded && current === "all"));
+
+    if (!moreWrap) return;
+    moreWrap.hidden = matching.length <= FEATURED;
+    moreWrap.classList.toggle("is-open", expanded);
+    moreBtn.setAttribute("aria-expanded", String(expanded));
+    moreLabel.textContent = expanded
+      ? "Zobrazit m\u00e9n\u011b"
+      : "Zobrazit v\u0161ech " + matching.length + " realizac\u00ed";
+  };
 
   filters.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var want = btn.dataset.filter;
-
+      current  = btn.dataset.filter;
+      expanded = false;
       filters.forEach(function (b) {
         b.setAttribute("aria-pressed", String(b === btn));
       });
-
-      works.forEach(function (card) {
-        var show = want === "all" || card.dataset.cat === want;
-
-        if (show) {
-          card.classList.remove("is-gone");
-          // flush the display change so the fade back in has a start state
-          void card.offsetWidth;
-          card.classList.remove("is-out");
-        } else {
-          card.classList.add("is-out");
-          if (reduced.matches) {
-            card.classList.add("is-gone");
-          } else {
-            window.setTimeout(function () {
-              if (card.classList.contains("is-out")) card.classList.add("is-gone");
-            }, 340);
-          }
-        }
-      });
+      render(false);
     });
   });
 
-  /* ------------------------------------------- work: a few, then the rest */
-  var moreBtn = $("#works-more");
-
   if (moreBtn) {
-    var extras = works.filter(function (card) { return !card.hasAttribute("data-initial"); });
-    extras.forEach(function (card) { card.classList.add("is-gone"); });
-
-    var removeMoreBtn = function () {
-      if (moreBtn.parentElement) moreBtn.parentElement.remove();
-    };
-
     moreBtn.addEventListener("click", function () {
-      extras.forEach(function (card) {
-        card.classList.remove("is-gone");
-        void card.offsetWidth;
-        card.classList.remove("is-out");
-      });
-      removeMoreBtn();
-    });
-
-    filters.forEach(function (btn) {
-      btn.addEventListener("click", removeMoreBtn);
+      expanded = !expanded;
+      render(false);
+      if (!expanded) {
+        var top = document.getElementById("dilo");
+        if (top) top.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth", block: "start" });
+      }
     });
   }
+
+  render(true);
 
   /* ---------------------------------------------------------- the lightbox */
   var lb        = $("#lb");
