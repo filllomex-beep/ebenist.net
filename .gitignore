@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# originály z fotoaparátu — web je nepotřebuje, hotové JPEG jsou v assets/img
+fotky na web/
+
+# nástroje
+node_modules/
+.vercel
+
+# interní playbook, není součástí webu
+CLAUDE_14.md

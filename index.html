@@ -1,0 +1,2879 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Michal Řičica — ebenist &amp; restaurátor historického nábytku, Praha</title>
+<meta name="description" content="Umělecký truhlář a restaurátor historického nábytku. Ruční repase, opravy intarzií, šelakové povrchy, repliky a autorský nábytek. Praha, od roku 1988.">
+<meta name="author" content="Michal Řičica">
+<link rel="canonical" href="https://ebenist.net/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:site_name" content="Michal Řičica — ebenist &amp; restaurátor">
+<meta property="og:title" content="Michal Řičica — ebenist &amp; restaurátor historického nábytku">
+<meta property="og:description" content="Ruční repase uměleckořemeslného nábytku výhradně z přírodních materiálů. Praha, od roku 1988.">
+<meta property="og:url" content="https://ebenist.net/">
+<meta property="og:image" content="assets/img/michal-ricica-fb.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Favicon: MŘ monogram, brass on walnut -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231E1713'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='30' fill='%239A7B45' text-anchor='middle'%3EMŘ%3C/text%3E%3C/svg%3E">
+
+<!-- Fonts: Cormorant Garamond (display) + Inter (text). latin-ext served via unicode-range. -->
+<!-- Hero plate: fetched with the type so the reveal has something to open onto -->
+<link rel="preload" as="image" href="assets/img/michal-ricica-portret-01.jpg" media="(min-width:641px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/img/michal-ricica-portret-01-m.jpg" media="(max-width:640px)" fetchpriority="high">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   1. TOKENS  — see design-system/MASTER.md
+   ========================================================================== */
+:root{
+  --paper:#F4EFE6;
+  --paper-2:#EBE4D8;
+  --paper-3:#E1D8C8;
+  --ink:#191411;
+  --ink-2:#3D342C;
+  --ink-3:#6F6357;
+  --walnut:#1E1713;
+  --walnut-2:#2A211A;
+  --brass:#9A7B45;        /* accent on paper — 3.5:1, large text & rules only */
+  --brass-deep:#7A6033;   /* accent text on paper — 5.2:1 */
+  --brass-lit:#A5864F;    /* accent on walnut — 5.2:1 */
+
+  --line:rgba(25,20,17,.13);
+  --line-strong:rgba(25,20,17,.28);
+  --line-dark:rgba(244,239,230,.14);
+
+  --font-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --font-text:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+
+  --gutter:clamp(1.25rem,5vw,4rem);
+  --container:1320px;
+  --section-y:clamp(6rem,12vh,11rem);
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-ui:cubic-bezier(.4,0,.2,1);
+
+  --nav-h:76px;
+
+  /* photographs sit on a soft plate rather than a hard-cut rectangle */
+  --radius:8px;
+  --radius-sm:6px;
+}
+
+/* ==========================================================================
+   2. RESET & BASE
+   ========================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-text);
+  font-size:clamp(1rem,.97rem + .15vw,1.0625rem);
+  line-height:1.72;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+body.is-locked,body.menu-open{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;margin:0;padding:0;cursor:pointer}
+h1,h2,h3,h4{margin:0;font-weight:400;font-family:var(--font-display);line-height:1.05;letter-spacing:-.02em}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+::selection{background:var(--brass);color:var(--paper)}
+
+:focus-visible{
+  outline:2px solid var(--brass-deep);
+  outline-offset:3px;
+  border-radius:2px;
+}
+.dark :focus-visible{outline-color:var(--brass)}
+
+.skip-link{
+  position:absolute;left:var(--gutter);top:-100px;z-index:1000;
+  background:var(--ink);color:var(--paper);
+  padding:.75rem 1.25rem;border-radius:2px;
+  font-size:.8rem;letter-spacing:.06em;
+  transition:top .2s var(--ease-ui);
+}
+.skip-link:focus{top:1rem}
+
+/* Paper grain — tactile, barely there */
+.grain{
+  position:fixed;inset:0;z-index:900;pointer-events:none;
+  opacity:.038;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   3. LAYOUT PRIMITIVES
+   ========================================================================== */
+.container{
+  width:100%;max-width:var(--container);
+  margin-inline:auto;padding-inline:var(--gutter);
+}
+.section{padding-block:var(--section-y);position:relative}
+.section--tight{padding-block:clamp(4rem,8vh,7rem)}
+[id]{scroll-margin-top:calc(var(--nav-h) + 24px)}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,3vw,3rem)}
+
+.dark{background:var(--walnut);color:var(--paper);--brass:var(--brass-lit)}
+.dark .rule{background:var(--line-dark)}
+
+.rule{height:1px;background:var(--line);border:0;width:100%}
+
+/* ==========================================================================
+   4. TYPOGRAPHY UTILITIES
+   ========================================================================== */
+.label{
+  font-family:var(--font-text);
+  font-size:.7rem;font-weight:500;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-3);
+  display:flex;align-items:center;gap:.75rem;
+}
+.dark .label{color:rgba(244,239,230,.55)}
+.label::before{
+  content:"";width:1.75rem;height:1px;background:var(--brass);
+  flex:none;
+}
+.label--plain::before{display:none}
+
+.display-1{
+  font-size:clamp(3.1rem,10.5vw,9rem);
+  font-weight:300;line-height:.92;letter-spacing:-.035em;
+}
+.display-2{
+  font-size:clamp(2.3rem,5.4vw,4.4rem);
+  font-weight:300;line-height:1.02;letter-spacing:-.03em;
+}
+.display-3{
+  font-size:clamp(1.6rem,2.9vw,2.5rem);
+  font-weight:400;line-height:1.12;letter-spacing:-.02em;
+}
+.em{font-style:italic;font-weight:300}
+.lead{
+  font-family:var(--font-display);
+  font-size:clamp(1.2rem,1.9vw,1.6rem);
+  line-height:1.5;font-weight:400;color:var(--ink-2);
+  max-width:34ch;
+}
+.dark .lead{color:rgba(244,239,230,.88)}
+.prose{max-width:64ch;color:var(--ink-2)}
+.prose p + p{margin-top:1.1em}
+.dark .prose{color:rgba(244,239,230,.74)}
+.muted{color:var(--ink-3)}
+.dark .muted{color:rgba(244,239,230,.6)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ==========================================================================
+   5. BUTTONS & LINKS
+   ========================================================================== */
+.btn{
+  --btn-fill:var(--ink);
+  --btn-fill-text:var(--paper);
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:1rem 1.9rem;
+  font-size:.78rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:999px;
+  cursor:pointer;position:relative;overflow:hidden;isolation:isolate;
+  transition:border-color .35s var(--ease-ui),transform .3s var(--ease-out);
+}
+.btn::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:var(--btn-fill);
+  transform:scaleX(0);transform-origin:right;
+  transition:transform .45s var(--ease-out);
+}
+.btn > span,.btn > svg{position:relative;z-index:1;transition:color .3s var(--ease-ui)}
+.btn:hover{transform:translateY(-2px)}
+.btn:hover::after,.btn:focus-visible::after{transform:scaleX(1);transform-origin:left}
+.btn:hover > span,.btn:hover > svg,
+.btn:focus-visible > span,.btn:focus-visible > svg{color:var(--btn-fill-text)}
+
+.btn--solid{background:var(--ink);color:var(--paper);border-color:var(--ink);
+  --btn-fill:var(--brass-deep);--btn-fill-text:var(--paper)}
+.btn--ghost{color:var(--ink);border-color:var(--line-strong);
+  --btn-fill:var(--ink);--btn-fill-text:var(--paper)}
+.btn--ghost:hover,.btn--ghost:focus-visible{border-color:var(--ink)}
+.btn--ghost-light{color:var(--paper);border-color:rgba(244,239,230,.42);
+  --btn-fill:var(--paper);--btn-fill-text:var(--walnut)}
+.btn--ghost-light:hover,.btn--ghost-light:focus-visible{border-color:var(--paper)}
+.btn--brass{background:var(--brass);border-color:var(--brass);color:var(--walnut);
+  --btn-fill:var(--paper);--btn-fill-text:var(--walnut)}
+.btn--brass:hover,.btn--brass:focus-visible{border-color:var(--paper)}
+.btn svg{width:1rem;height:1rem;flex:none;transition:transform .35s var(--ease-out),color .3s var(--ease-ui)}
+.btn:hover svg{transform:translateX(4px)}
+
+/* underline link */
+.ulink{
+  position:relative;display:inline-block;
+  color:var(--brass-deep);
+  padding-bottom:2px;
+}
+.dark .ulink{color:var(--brass)}
+.ulink::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:currentColor;transform:scaleX(1);transform-origin:right;
+  transition:transform .4s var(--ease-out);
+}
+.ulink:hover::after{transform:scaleX(0)}
+
+/* ==========================================================================
+   6. NAVIGATION
+   ========================================================================== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  height:var(--nav-h);
+  display:flex;align-items:center;
+  color:var(--ink);
+  transition:background .5s var(--ease-ui),color .5s var(--ease-ui),box-shadow .5s var(--ease-ui);
+}
+.nav::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:var(--paper);
+  opacity:0;transition:opacity .5s var(--ease-ui);
+}
+.nav.is-solid{color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.nav.is-solid::before{opacity:1;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.nav__inner{
+  width:100%;max-width:var(--container);margin-inline:auto;
+  padding-inline:var(--gutter);
+  display:flex;align-items:center;justify-content:flex-start;gap:2rem;
+}
+.brand{
+  display:flex;flex-direction:column;line-height:1.1;flex:none;
+  font-family:var(--font-text);
+}
+.brand__name,.brand__role{white-space:nowrap}
+.brand__name{font-size:.82rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase}
+.brand__role{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-top:.28rem}
+.nav__menu{display:flex;align-items:center;gap:clamp(1.25rem,2.4vw,2.4rem);margin-left:auto}
+.nav__link{
+  position:relative;font-size:.76rem;font-weight:400;
+  letter-spacing:.16em;text-transform:uppercase;
+  padding-block:.35rem;cursor:pointer;
+}
+.nav__link::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform .4s var(--ease-out);
+}
+.nav__link:hover::after,.nav__link.is-active::after{transform:scaleX(1)}
+
+/* telephone + e-mail, top right — the menu keeps them on small screens */
+.nav__contact{display:none}
+@media (min-width:1000px){
+  .nav__contact{
+    display:flex;align-items:center;gap:1.4rem;
+    padding-left:clamp(1.25rem,2vw,2rem);
+    border-left:1px solid var(--line);
+  }
+}
+.nav__contact a{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.72rem;letter-spacing:.08em;color:var(--ink-3);
+  white-space:nowrap;
+  transition:color .3s var(--ease-ui);
+}
+.nav__contact a:hover,.nav__contact a:focus-visible{color:var(--brass-deep)}
+.nav__contact svg{width:.85rem;height:.85rem;flex:none;opacity:.7}
+.nav__contact a:hover svg{opacity:1}
+/* .nav__contact a is (0,1,1) — the e-mail rule has to match it to win */
+.nav__contact .nav__mail{display:none}
+@media (min-width:1240px){.nav__contact .nav__mail{display:inline-flex}}
+
+/* mobile toggle */
+.nav__burger{
+  display:none;width:44px;height:44px;
+  align-items:center;justify-content:center;margin-right:-10px;
+}
+.nav__burger span{
+  display:block;width:24px;height:1px;background:currentColor;position:relative;
+  transition:background .2s var(--ease-ui);
+}
+.nav__burger span::before,.nav__burger span::after{
+  content:"";position:absolute;left:0;width:24px;height:1px;background:currentColor;
+  transition:transform .35s var(--ease-out);
+}
+.nav__burger span::before{transform:translateY(-7px)}
+.nav__burger span::after{transform:translateY(7px)}
+body.menu-open .nav__burger span{background:transparent}
+body.menu-open .nav__burger span::before{transform:rotate(45deg)}
+body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
+
+@media (max-width:899px){
+  .nav__burger{display:flex;margin-left:auto}
+  .nav__menu{
+    position:fixed;inset:0;z-index:-1;
+    background:var(--walnut);color:var(--paper);
+    flex-direction:column;justify-content:center;align-items:flex-start;
+    gap:0;padding:0 var(--gutter);margin-left:0;
+    opacity:0;visibility:hidden;
+    transition:opacity .45s var(--ease-ui),visibility .45s;
+  }
+  body.menu-open .nav__menu{opacity:1;visibility:visible}
+  body.menu-open .nav{color:var(--paper)}
+  body.menu-open .nav::before{opacity:0}
+  .nav__menu .nav__link{
+    font-family:var(--font-display);font-size:2.4rem;letter-spacing:-.01em;
+    text-transform:none;padding-block:.5rem;
+    opacity:0;transform:translateY(18px);
+    transition:opacity .5s var(--ease-out),transform .5s var(--ease-out);
+  }
+  body.menu-open .nav__menu .nav__link{opacity:1;transform:none}
+  body.menu-open .nav__menu .nav__link:nth-child(1){transition-delay:.08s}
+  body.menu-open .nav__menu .nav__link:nth-child(2){transition-delay:.14s}
+  body.menu-open .nav__menu .nav__link:nth-child(3){transition-delay:.2s}
+  body.menu-open .nav__menu .nav__link:nth-child(4){transition-delay:.26s}
+  body.menu-open .nav__menu .nav__link:nth-child(5){transition-delay:.32s}
+  .nav__menu .nav__link::after{display:none}
+  .nav__menu-meta{
+    margin-top:2.5rem;font-size:.8rem;letter-spacing:.05em;
+    color:rgba(244,239,230,.6);line-height:2;
+  }
+}
+@media (min-width:900px){.nav__menu-meta{display:none}}
+
+/* ==========================================================================
+   7. HERO — quiet, typographic, no photograph. The picture arrives on scroll.
+   ========================================================================== */
+.hero{
+  position:relative;min-height:100svh;
+  display:flex;flex-direction:column;
+  background:var(--paper);color:var(--ink);
+  padding-top:calc(var(--nav-h) + clamp(1.5rem,5vh,3.5rem));
+}
+.hero__inner{
+  flex:1 1 auto;width:100%;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.hero__eyebrow{
+  display:flex;align-items:center;gap:.9rem;
+  font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:clamp(1.25rem,3vh,2.25rem);
+}
+.hero__eyebrow::before{content:"";width:2.5rem;height:1px;background:var(--brass)}
+@media (max-width:560px){
+  .hero__eyebrow{display:block;font-size:.63rem;letter-spacing:.14em;line-height:1.8}
+  .hero__eyebrow::before{
+    display:inline-block;vertical-align:middle;
+    width:1.6rem;margin-right:.7rem;
+  }
+}
+.hero h1{max-width:14ch;line-height:1}
+.hero h1 .line{
+  display:block;overflow:hidden;
+  padding-block:.08em .12em;margin-block:-.08em -.12em;
+}
+.hero h1 .line > span{
+  display:block;
+  transform:translateY(118%);
+  animation:riseIn 1.15s var(--ease-out) forwards;
+}
+.hero h1 .line:nth-child(1) > span{animation-delay:.15s}
+.hero h1 .line:nth-child(2) > span{animation-delay:.27s}
+@keyframes riseIn{to{transform:translateY(0)}}
+
+.hero__lead{
+  margin-top:clamp(1.75rem,4.5vh,3rem);
+  max-width:36ch;
+  opacity:0;animation:fadeUp 1s var(--ease-out) .6s forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+.hero__actions{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.9rem 2.5rem;
+  margin-top:clamp(1.75rem,4vh,2.75rem);
+  opacity:0;animation:fadeUp 1s var(--ease-out) .74s forwards;
+}
+.hero__link{
+  display:inline-flex;align-items:center;gap:.7rem;
+  font-size:.78rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  padding-bottom:.5rem;border-bottom:1px solid var(--line-strong);
+  transition:color .3s var(--ease-ui),border-color .4s var(--ease-ui);
+}
+.hero__link svg{width:1rem;height:1rem;flex:none;transition:transform .35s var(--ease-out)}
+.hero__link:hover,.hero__link:focus-visible{color:var(--brass-deep);border-color:var(--brass)}
+.hero__link:hover svg{transform:translateX(5px)}
+.hero__alt{
+  font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);transition:color .3s var(--ease-ui);
+}
+.hero__alt:hover,.hero__alt:focus-visible{color:var(--ink)}
+
+.hero__foot{
+  padding-bottom:clamp(1.25rem,3.5vh,2.25rem);
+  opacity:0;animation:fadeUp 1s var(--ease-out) .95s forwards;
+}
+.hero__foot-inner{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:1.5rem;
+  padding-top:1.1rem;border-top:1px solid var(--line);
+}
+.hero__credits{
+  display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+/* --- the hero plate: photograph opens alongside the type ---------------- */
+.hero__grid{
+  display:grid;grid-template-columns:1fr;
+  gap:clamp(2.25rem,5vh,3rem);align-items:center;width:100%;
+}
+@media (min-width:900px){
+  .hero__grid{
+    grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);
+    gap:clamp(2rem,4vw,4.5rem);
+    align-items:stretch;
+  }
+  .hero .display-1{font-size:clamp(3.1rem,7.4vw,6.7rem)}
+  .hero h1{max-width:11ch}
+  .hero__type{display:flex;flex-direction:column;justify-content:flex-start;min-width:0}
+  .hero__plate{display:flex;flex-direction:column}
+  /* height comes from the type column, so the aspect-ratio is only the
+     small-screen fallback */
+  .hero__plate-img{flex:1 1 auto;aspect-ratio:auto;min-height:0}
+}
+.hero__plate{position:relative;margin:0;min-width:0}
+.hero__plate::before{
+  content:"";position:absolute;left:0;top:-1.15rem;height:1px;width:0;
+  background:var(--brass);
+  animation:plateRule 1.1s var(--ease-out) 1.05s forwards;
+}
+@keyframes plateRule{to{width:100%}}
+.hero__plate-img{
+  display:block;overflow:hidden;background:var(--paper-3);
+  aspect-ratio:3/4;border-radius:var(--radius);
+  clip-path:inset(0 0 100% 0 round var(--radius));
+  animation:plateOpen 1.5s var(--ease-out) .58s forwards;
+  will-change:clip-path;
+}
+@keyframes plateOpen{to{clip-path:inset(0 0 0 0 round var(--radius))}}
+.hero__plate img{
+  display:block;width:100%;height:100%;object-fit:cover;object-position:50% 46%;
+  filter:saturate(.92) contrast(1.02);
+  transform:scale(1.14);
+  animation:plateSettle 2.5s var(--ease-out) .58s forwards,
+            plateDrift 24s ease-in-out 3.2s infinite alternate;
+  will-change:transform;
+}
+@keyframes plateSettle{to{transform:scale(1)}}
+@keyframes plateDrift{
+  from{transform:scale(1) translate3d(0,0,0)}
+  to{transform:scale(1.05) translate3d(-1.1%,-1.2%,0)}
+}
+.hero__plate figcaption{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:.3rem .9rem;
+  margin-top:.85rem;
+  font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);
+  opacity:0;animation:fadeUp .9s var(--ease-out) 1.45s forwards;
+}
+.hero__plate figcaption b{font-weight:400;color:var(--ink-2)}
+@media (max-width:899px){
+  .hero__plate-img{aspect-ratio:5/4}
+  .hero__plate img{object-position:50% 40%}
+  .hero__plate::before{top:-.9rem}
+}
+
+/* ==========================================================================
+   7b. SCROLL SHOT — the main photograph opens out of the paper as you scroll.
+       --p (0 -> 1) is driven from JS; it defaults to 1 so the picture is
+       whole even if the script never runs.
+   ========================================================================== */
+.shot{position:relative;background:var(--paper)}
+.shot__runway{height:200vh}
+.shot__stage{
+  --p:1;
+  position:sticky;top:0;height:100svh;overflow:hidden;
+  background:var(--paper);
+}
+.shot__frame{
+  position:absolute;inset:0;margin:0;overflow:hidden;background:var(--walnut);
+  clip-path:inset(
+    calc((1 - var(--p)) * 17vh)
+    calc((1 - var(--p)) * 22vw)
+    calc((1 - var(--p)) * 17vh)
+    calc((1 - var(--p)) * 22vw)
+    round calc((1 - var(--p)) * var(--radius))
+  );
+  will-change:clip-path;
+}
+.shot__frame img{
+  width:100%;height:100%;object-fit:cover;object-position:60% 50%;
+  /* the pan is half the zoom, so the right edge of the picture stays pinned
+     to the right edge of the stage and no paper can show through */
+  transform:translateX(calc(-14% * (1 - var(--p)))) scale(calc(1 + .28 * (1 - var(--p))));
+  will-change:transform;
+}
+.shot__veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,15,12,0) 55%,rgba(20,15,12,.62) 100%);
+  opacity:var(--p);
+}
+.shot__cap{
+  position:absolute;left:0;right:0;bottom:clamp(1.75rem,5vh,3rem);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.25rem;
+  color:var(--paper);
+  font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  opacity:calc((var(--p) - .72) * 3.6);
+  transform:translateY(calc((1 - var(--p)) * 16px));
+}
+.shot__cap span:last-child{color:rgba(244,239,230,.6)}
+@media (max-width:760px){
+  .shot__runway{height:175vh}
+  /* portrait viewports crop the photograph sideways already — zoom only */
+  .shot__frame img{transform:scale(calc(1 + .18 * (1 - var(--p))))}
+  .shot__frame{
+    clip-path:inset(
+      calc((1 - var(--p)) * 24vh)
+      calc((1 - var(--p)) * 8vw)
+      calc((1 - var(--p)) * 24vh)
+      calc((1 - var(--p)) * 8vw)
+      round calc((1 - var(--p)) * var(--radius))
+    );
+  }
+}
+
+/* ==========================================================================
+   8. APPROACH / MANIFESTO
+   ========================================================================== */
+.approach__grid{align-items:start}
+.approach__aside{grid-column:1/-1}
+.approach__body{grid-column:1/-1}
+@media (min-width:900px){
+  .approach__aside{grid-column:1/4;position:sticky;top:calc(var(--nav-h) + 3rem)}
+  .approach__body{grid-column:5/12}
+}
+.facts{
+  margin-top:clamp(3rem,7vh,5rem);
+  display:grid;gap:0;
+  border-top:1px solid var(--line);
+}
+.fact{
+  display:grid;grid-template-columns:1fr;gap:.35rem;
+  padding-block:1.6rem;border-bottom:1px solid var(--line);
+}
+@media (min-width:640px){
+  .fact{grid-template-columns:9rem 1fr;gap:2rem;align-items:baseline}
+}
+.fact__k{
+  font-family:var(--font-display);font-size:1.6rem;line-height:1;
+  color:var(--brass-deep);font-variant-numeric:tabular-nums;
+}
+.fact__v{font-size:.95rem;color:var(--ink-2);line-height:1.6}
+
+/* ==========================================================================
+   9. SERVICES
+   ========================================================================== */
+.services{border-top:1px solid var(--line)}
+.service{
+  display:grid;grid-template-columns:1fr;gap:.5rem 2rem;
+  padding-block:clamp(1.75rem,3.5vh,2.6rem);
+  border-bottom:1px solid var(--line);
+  position:relative;
+  transition:padding-left .45s var(--ease-out);
+}
+.service::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:var(--brass);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .5s var(--ease-out);
+}
+@media (min-width:900px){
+  .service{grid-template-columns:5rem minmax(0,20rem) minmax(0,1fr);align-items:start}
+  .service:hover{padding-left:1.5rem}
+  .service:hover::before{transform:scaleY(1);transform-origin:top}
+}
+.service__num{
+  font-size:.72rem;letter-spacing:.16em;color:var(--brass-deep);
+  font-variant-numeric:tabular-nums;padding-top:.55rem;
+}
+.service__title{
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,2.6vw,2.1rem);line-height:1.15;letter-spacing:-.02em;
+}
+.service__desc{color:var(--ink-3);font-size:.98rem;line-height:1.7;max-width:52ch}
+
+/* ==========================================================================
+   10. WORK — categories + project grid + lightbox
+   ========================================================================== */
+.work__head{
+  display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;
+  gap:2rem;margin-bottom:clamp(2.5rem,5vh,4rem);
+}
+.filters{
+  display:flex;flex-wrap:wrap;gap:.4rem;
+}
+.filter{
+  padding:.6rem 1.15rem;border-radius:999px;
+  font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid transparent;
+  cursor:pointer;
+  transition:color .3s var(--ease-ui),background .3s var(--ease-ui),border-color .3s var(--ease-ui);
+}
+.filter:hover{color:var(--ink);border-color:var(--line-strong)}
+.filter[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.works{
+  display:grid;gap:clamp(1.5rem,2.6vw,2.5rem);
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,20rem),1fr));
+}
+.work{
+  grid-column:span 1;
+  opacity:1;transform:none;
+  transition:opacity .35s var(--ease-ui),transform .35s var(--ease-ui);
+}
+.work.is-out{opacity:0;transform:scale(.97);pointer-events:none}
+.work.is-gone{display:none}
+.works__more{
+  display:flex;justify-content:center;
+  margin-top:clamp(2.5rem,5vh,4rem);
+}
+/* every 7th project runs wide — asymmetric rhythm, never a plain uniform grid */
+@media (min-width:900px){
+  .work--wide{grid-column:span 2}
+}
+.work__btn{
+  display:block;width:100%;text-align:left;cursor:pointer;
+}
+.work__frame{
+  display:block;position:relative;overflow:hidden;
+  background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line);
+  aspect-ratio:3/2;border-radius:var(--radius);
+}
+.work--wide .work__frame{aspect-ratio:3/2}
+.work__frame img{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.001);
+  transition:transform .8s var(--ease-out),filter .6s var(--ease-ui);
+  filter:saturate(.92);
+}
+.work__btn:hover .work__frame img,
+.work__btn:focus-visible .work__frame img{transform:scale(1.045);filter:saturate(1)}
+.work__count{
+  position:absolute;right:.85rem;bottom:.85rem;z-index:2;
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.35rem .7rem;border-radius:999px;
+  background:rgba(30,23,19,.72);color:var(--paper);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  font-size:.66rem;letter-spacing:.12em;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .35s var(--ease-ui),transform .35s var(--ease-out);
+}
+.work__btn:hover .work__count,
+.work__btn:focus-visible .work__count{opacity:1;transform:none}
+.work__count svg{width:.8rem;height:.8rem}
+@media (hover:none){
+  .work__count{opacity:1;transform:none}
+}
+@media (max-width:620px){
+  .work__meta{flex-direction:column;align-items:flex-start;gap:.3rem}
+  .work__cat{order:-1;padding-top:0;white-space:normal}
+}
+.work__meta{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+  padding-top:.95rem;
+}
+.work__title{
+  display:block;font-family:var(--font-display);font-size:1.28rem;line-height:1.25;
+  letter-spacing:-.01em;color:var(--ink);
+}
+.work__cat{
+  display:block;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);white-space:nowrap;padding-top:.25rem;
+}
+.work__note{display:block;font-size:.86rem;color:var(--ink-3);padding-top:.3rem;line-height:1.55;max-width:46ch}
+
+/* Lightbox */
+.lb{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(14,10,8,.96);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;
+  transition:opacity .4s var(--ease-ui),visibility .4s;
+}
+.lb.is-open{opacity:1;visibility:visible}
+.lb[hidden]{display:none}
+.lb__nav[hidden],.lb__foot .num[hidden]{display:none}
+.lb__bar{
+  flex:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1.1rem var(--gutter);color:var(--paper);
+  border-bottom:1px solid var(--line-dark);
+}
+.lb__title{font-family:var(--font-display);font-size:1.25rem;line-height:1.3}
+.lb__sub{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,239,230,.55);margin-top:.2rem}
+.lb__close{
+  width:44px;height:44px;flex:none;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line-dark);color:var(--paper);
+  transition:background .3s var(--ease-ui),transform .3s var(--ease-out);
+}
+.lb__close:hover{background:rgba(244,239,230,.12);transform:rotate(90deg)}
+.lb__close svg{width:1.1rem;height:1.1rem}
+.lb__stage{
+  flex:1;position:relative;min-height:0;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(1rem,3vh,2.5rem) var(--gutter);
+}
+.lb__img{
+  max-width:100%;max-height:100%;
+  width:auto;height:auto;object-fit:contain;
+  border-radius:var(--radius-sm);
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  opacity:0;transform:scale(.985);
+  transition:opacity .35s var(--ease-ui),transform .5s var(--ease-out);
+}
+.lb__img.is-ready{opacity:1;transform:none}
+.lb__nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:52px;height:52px;border-radius:999px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(244,239,230,.08);border:1px solid var(--line-dark);
+  color:var(--paper);
+  transition:background .3s var(--ease-ui),transform .3s var(--ease-out);
+}
+.lb__nav:hover{background:rgba(244,239,230,.2)}
+.lb__nav svg{width:1.2rem;height:1.2rem}
+.lb__nav--prev{left:calc(var(--gutter) * .35)}
+.lb__nav--next{right:calc(var(--gutter) * .35)}
+.lb__nav--prev:hover{transform:translateY(-50%) translateX(-3px)}
+.lb__nav--next:hover{transform:translateY(-50%) translateX(3px)}
+.lb__foot{
+  flex:none;display:flex;align-items:center;justify-content:center;gap:1.25rem;
+  padding:1rem var(--gutter) 1.4rem;
+  color:rgba(244,239,230,.6);
+  font-size:.72rem;letter-spacing:.16em;
+}
+.lb__dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:60vw}
+.lb__dot{
+  width:20px;height:2px;background:rgba(244,239,230,.25);
+  transition:background .3s var(--ease-ui),transform .3s var(--ease-out);
+}
+.lb__dot.is-on{background:var(--brass);transform:scaleY(2)}
+
+/* ==========================================================================
+   11. CASE STUDY (dark)
+   ========================================================================== */
+.case__grid{align-items:start}
+.case__media{grid-column:1/-1;order:2}
+.case__body{grid-column:1/-1;order:1}
+@media (min-width:1000px){
+  .case__media{grid-column:1/7;order:1}
+  .case__body{grid-column:8/13;order:2;position:sticky;top:calc(var(--nav-h) + 3rem)}
+}
+.case__stack{display:grid;gap:clamp(.75rem,1.5vw,1.25rem)}
+.case__stack figure{margin:0;background:#fff;overflow:hidden;border-radius:var(--radius)}
+.case__stack img{width:100%;height:auto;transition:transform .8s var(--ease-out)}
+.case__stack button{display:block;width:100%;cursor:pointer;overflow:hidden;border-radius:var(--radius)}
+.case__stack button:hover img{transform:scale(1.03)}
+@media (min-width:640px){
+  .case__stack{grid-template-columns:1fr 1fr}
+  .case__stack > :first-child{grid-column:1/-1}
+}
+.case__title{margin-top:1rem}
+.case__client{
+  font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brass);margin-top:1rem;
+}
+
+/* accordion */
+.acc{margin-top:clamp(2rem,4vh,3rem);border-top:1px solid var(--line-dark)}
+.acc__item{border-bottom:1px solid var(--line-dark)}
+.acc__btn{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  padding-block:1.35rem;text-align:left;cursor:pointer;
+  font-family:var(--font-display);font-size:1.2rem;letter-spacing:-.01em;
+  color:var(--paper);
+  transition:color .3s var(--ease-ui);
+}
+.acc__btn:hover{color:var(--brass)}
+.acc__icon{position:relative;width:14px;height:14px;flex:none}
+.acc__icon::before,.acc__icon::after{
+  content:"";position:absolute;left:50%;top:50%;background:currentColor;
+  transform:translate(-50%,-50%);transition:transform .4s var(--ease-out),opacity .3s var(--ease-ui);
+}
+.acc__icon::before{width:14px;height:1px}
+.acc__icon::after{width:1px;height:14px}
+.acc__btn[aria-expanded="true"] .acc__icon::after{transform:translate(-50%,-50%) rotate(90deg);opacity:0}
+.acc__panel{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .5s var(--ease-out);
+}
+.acc__panel[data-open="true"]{grid-template-rows:1fr}
+.acc__panel > div{overflow:hidden}
+.acc__inner{padding-bottom:1.6rem;color:rgba(244,239,230,.72);font-size:.94rem;line-height:1.75}
+.steps{counter-reset:step;display:grid;gap:.55rem}
+.steps li{
+  display:grid;grid-template-columns:2.1rem 1fr;gap:.4rem;
+  align-items:baseline;
+}
+.steps li::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);
+  color:var(--brass);font-size:.72rem;letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ==========================================================================
+   12. CV / TIMELINE
+   ========================================================================== */
+.cv__grid{align-items:start}
+.cv__aside{grid-column:1/-1}
+.cv__body{grid-column:1/-1}
+@media (min-width:900px){
+  .cv__aside{grid-column:1/5;position:sticky;top:calc(var(--nav-h) + 3rem)}
+  .cv__body{grid-column:6/13}
+}
+.cv__portrait{
+  margin-top:2rem;overflow:hidden;background:var(--paper-2);
+  aspect-ratio:4/5;max-width:22rem;border-radius:var(--radius);
+}
+.cv__portrait picture{display:contents}
+.cv__portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:saturate(.9)}
+.approach__shot{
+  display:block;margin:clamp(2.25rem,5vh,3.25rem) 0 0;
+  overflow:hidden;background:var(--paper-2);
+  aspect-ratio:4/5;max-width:19rem;border-radius:var(--radius);
+}
+.approach__shot img{
+  width:100%;height:100%;object-fit:cover;object-position:52% 40%;
+  filter:saturate(.9);transition:transform 1.3s var(--ease-out);
+}
+.approach__shot:hover img{transform:scale(1.045)}
+@media (max-width:899px){.approach__shot{max-width:22rem;aspect-ratio:4/3}}
+
+/* ==========================================================================
+   12b. DÍLNA — a quiet interlude of workshop plates
+   ========================================================================== */
+.dilna{padding-block:var(--section-y);background:var(--paper);overflow:hidden}
+.dilna__grid{display:flex;flex-direction:column;gap:clamp(2.5rem,5vh,4rem)}
+.dilna__head,.dilna__band{
+  display:grid;grid-template-columns:1fr;gap:clamp(1.75rem,3vw,2.75rem);
+}
+@media (min-width:900px){
+  /* the plates carry their own proportions (4:3 and 3:4); sizing the columns in
+     that same ratio lands both frames on exactly one height — and the header
+     row takes the identical track list, so every vertical rail runs straight
+     through. minmax(0,…) keeps min-content from nudging a track wider. */
+  .dilna__head,.dilna__band{
+    grid-template-columns:minmax(0,1.3333fr) minmax(0,.75fr);
+    gap:clamp(1.5rem,3vw,3rem);
+  }
+  .dilna__head{align-items:end}
+  .dilna__band{align-items:start}
+}
+.dilna__plate{margin:0;position:relative}
+.plate__btn{
+  display:block;width:100%;padding:0;border:0;background:none;
+  cursor:pointer;color:inherit;text-align:left;
+}
+.plate__frame{
+  display:block;overflow:hidden;background:var(--paper-2);
+  border-radius:var(--radius);
+}
+.dilna__plate--wide .plate__frame{aspect-ratio:4/3}
+.dilna__plate--tall .plate__frame{aspect-ratio:3/4}
+.plate__frame img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(.92);
+  transition:transform 1.3s var(--ease-out),filter .5s var(--ease-ui);
+}
+.plate__btn:hover .plate__frame img,
+.plate__btn:focus-visible .plate__frame img{transform:scale(1.04);filter:saturate(1)}
+.plate__btn:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
+.plate__cap{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:.25rem .9rem;
+  margin-top:.8rem;
+  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);
+}
+.plate__cap b{font-weight:400;color:var(--ink-2)}
+.dilna__cap{
+  font-size:.95rem;line-height:1.7;color:var(--ink-3);
+  border-left:2px solid var(--brass);padding-left:1.25rem;
+}
+@media (max-width:899px){.dilna__cap{max-width:38ch}}
+
+.tl__group + .tl__group{margin-top:clamp(2.5rem,5vh,4rem)}
+.tl__head{
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-deep);
+  padding-bottom:1rem;border-bottom:1px solid var(--line-strong);
+}
+.tl__row{
+  display:grid;grid-template-columns:1fr;gap:.2rem;
+  padding-block:1.1rem;border-bottom:1px solid var(--line);
+  transition:background .3s var(--ease-ui);
+}
+@media (min-width:560px){
+  .tl__row{grid-template-columns:7.5rem 1fr;gap:1.5rem;align-items:baseline}
+}
+.tl__year{
+  font-family:var(--font-display);font-size:1.05rem;
+  color:var(--ink-3);font-variant-numeric:tabular-nums;letter-spacing:.02em;
+}
+.tl__what{color:var(--ink-2);font-size:.98rem;line-height:1.6}
+.tl__note{display:block;color:var(--ink-3);font-size:.86rem;margin-top:.15rem}
+.licence{
+  margin-top:2.25rem;padding:1.5rem 1.75rem;
+  background:var(--paper-2);border-left:2px solid var(--brass);
+  font-size:.92rem;line-height:1.7;color:var(--ink-2);
+}
+.licence strong{font-weight:500;color:var(--ink);letter-spacing:.02em}
+
+/* ==========================================================================
+   13. REFERENCES
+   ========================================================================== */
+.refs{display:grid;gap:clamp(2.5rem,5vw,4rem)}
+@media (min-width:768px){.refs{grid-template-columns:1fr 1fr}}
+.refgroup__head{
+  display:flex;align-items:baseline;gap:.9rem;
+  padding-bottom:1rem;margin-bottom:.5rem;
+  border-bottom:1px solid var(--line-strong);
+}
+.refgroup__title{font-family:var(--font-display);font-size:1.35rem;letter-spacing:-.01em}
+.refgroup__count{
+  font-size:.68rem;letter-spacing:.14em;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;margin-left:auto;
+}
+.reflist li{
+  padding-block:.72rem;border-bottom:1px solid var(--line);
+  font-size:.95rem;line-height:1.55;color:var(--ink-2);
+  display:flex;gap:.9rem;align-items:flex-start;
+  transition:transform .35s var(--ease-out),color .3s var(--ease-ui);
+}
+.reflist li::before{
+  content:"";flex:none;width:.35rem;height:.35rem;margin-top:.62rem;
+  background:var(--brass);border-radius:50%;opacity:.55;
+  transition:opacity .3s var(--ease-ui),transform .35s var(--ease-out);
+}
+.reflist li:hover{transform:translateX(5px);color:var(--ink)}
+.reflist li:hover::before{opacity:1;transform:scale(1.3)}
+
+/* ==========================================================================
+   14. CONTACT (dark) + FOOTER
+   ========================================================================== */
+.contact__grid{align-items:start}
+.contact__body{grid-column:1/-1}
+.contact__map{grid-column:1/-1;margin-top:2rem}
+@media (min-width:1000px){
+  .contact__body{grid-column:1/7}
+  .contact__map{grid-column:8/13;margin-top:0}
+}
+.contact__lines{
+  margin-top:clamp(2rem,4vh,3rem);
+  display:grid;gap:0;border-top:1px solid var(--line-dark);
+}
+.cline{
+  display:grid;grid-template-columns:1fr;gap:.25rem;
+  padding-block:1.4rem;border-bottom:1px solid var(--line-dark);
+}
+@media (min-width:560px){
+  .cline{grid-template-columns:8rem 1fr;gap:1.5rem;align-items:baseline}
+}
+.cline__k{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(244,239,230,.5)}
+.cline__v{
+  font-family:var(--font-display);
+  font-size:clamp(1.35rem,2.6vw,1.9rem);line-height:1.3;letter-spacing:-.01em;
+}
+.cline__v a{position:relative;display:inline-block}
+.cline__v a::after{
+  content:"";position:absolute;left:0;bottom:.05em;width:100%;height:1px;background:var(--brass);
+  transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease-out);
+}
+.cline__v a:hover{color:var(--brass)}
+.cline__v a:hover::after{transform:scaleX(1)}
+.mapcard{
+  display:block;position:relative;overflow:hidden;margin:0;
+  background:var(--walnut-2);aspect-ratio:4/3;
+  border:1px solid var(--line-dark);border-radius:var(--radius);
+}
+@media (min-width:1000px){.mapcard{aspect-ratio:1}}
+.mapcard iframe{display:block;width:100%;height:100%;border:0}
+.maplink{
+  display:inline-flex;align-items:center;gap:.55rem;
+  margin-top:1rem;padding-bottom:.4rem;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(244,239,230,.7);
+  border-bottom:1px solid rgba(244,239,230,.2);
+  transition:color .3s var(--ease-ui),border-color .3s var(--ease-ui);
+}
+.maplink:hover,.maplink:focus-visible{color:var(--paper);border-color:var(--paper)}
+.maplink svg{width:.9rem;height:.9rem;flex:none}
+.maplink svg:last-child{opacity:.6;transition:transform .35s var(--ease-out)}
+.maplink:hover svg:last-child{transform:translate(2px,-2px);opacity:1}
+.footer{background:var(--walnut);color:rgba(244,239,230,.55);padding-block:2.5rem}
+.footer__inner{
+  display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between;
+  font-size:.74rem;letter-spacing:.1em;
+  border-top:1px solid var(--line-dark);padding-top:2.25rem;
+}
+.footer a:hover{color:var(--brass)}
+.totop{display:inline-flex;align-items:center;gap:.55rem;letter-spacing:.16em;text-transform:uppercase}
+.totop svg{width:.85rem;height:.85rem;transition:transform .35s var(--ease-out)}
+.totop:hover svg{transform:translateY(-3px)}
+
+/* ==========================================================================
+   15. SCROLL REVEAL
+   ========================================================================== */
+.reveal{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);
+  transition-delay:var(--d,0s);
+}
+.reveal.is-in{opacity:1;transform:none}
+
+/* ==========================================================================
+   16. REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{opacity:1;transform:none}
+  .hero h1 .line > span{transform:none}
+  .hero__lead,.hero__actions,.hero__foot{opacity:1}
+  .hero__plate-img{clip-path:none}
+  .hero__plate img{transform:none;animation:none}
+  .hero__plate figcaption{opacity:1}
+  .hero__plate::before{width:100%;animation:none}
+  .plate__frame img,.approach__shot img{transform:none}
+  .shot__runway{height:auto}
+  .shot__stage{position:relative;height:min(80vh,640px);--p:1}
+  .lb__img{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#uvod">Přeskočit na obsah</a>
+
+<!-- ==========================================================================
+     NAVIGATION
+     ========================================================================== -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="#uvod" aria-label="Michal Řičica — úvod">
+      <span class="brand__name">Michal Řičica</span>
+      <span class="brand__role">ebenist &amp; restaurátor</span>
+    </a>
+
+    <nav class="nav__menu" id="menu" aria-label="Hlavní navigace">
+      <a class="nav__link" href="#sluzby">Služby</a>
+      <a class="nav__link" href="#dilo">Dílo</a>
+      <a class="nav__link" href="#zivotopis">Životopis</a>
+      <a class="nav__link" href="#reference">Reference</a>
+      <a class="nav__link" href="#kontakt">Kontakt</a>
+      <div class="nav__menu-meta">
+        Spálená 9, Praha 1<br>
+        +420 777 183 280<br>
+        ebenist@centrum.cz
+      </div>
+    </nav>
+
+    <div class="nav__contact">
+      <a class="nav__tel" href="tel:+420777183280">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1Z"/></svg>
+        <span class="num">+420 777 183 280</span>
+      </a>
+      <a class="nav__mail" href="mailto:ebenist@centrum.cz">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
+        <span>ebenist@centrum.cz</span>
+      </a>
+    </div>
+
+    <button class="nav__burger" id="burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="menu">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<main id="uvod" tabindex="-1" style="outline:none">
+
+<!-- ==========================================================================
+     HERO — type and one plate. The photograph wipes open beside the
+     headline, then breathes on a very slow drift.
+     ========================================================================== -->
+<section class="hero">
+  <div class="hero__inner container">
+    <div class="hero__grid">
+
+      <div class="hero__type">
+        <p class="hero__eyebrow">Praha&nbsp;1 &middot; ve vlastní dílně od roku 1988</p>
+
+        <h1 class="display-1">
+          <span class="line"><span>Ebenist</span></span>
+          <span class="line"><span>&amp; <em class="em">restaurátor</em></span></span>
+        </h1>
+
+        <p class="lead hero__lead">
+          Ruční repase uměleckořemeslného nábytku — výhradně z přírodních materiálů,
+          při minimálním použití elektrických nástrojů.
+        </p>
+
+        <p class="hero__actions">
+          <a class="hero__link" href="#dilo">
+            <span>Prohlédnout dílo</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="hero__alt" href="#kontakt">Domluvit prohlídku</a>
+        </p>
+      </div>
+
+      <figure class="hero__plate">
+        <span class="hero__plate-img">
+          <picture>
+            <source media="(max-width:640px)" srcset="assets/img/michal-ricica-portret-01-m.jpg">
+            <img src="assets/img/michal-ricica-portret-01.jpg" width="1125" height="1500"
+                 fetchpriority="high" decoding="async"
+                 alt="Michal Řičica ve své truhlářské dílně na Spálené v Praze">
+          </picture>
+        </span>
+        <figcaption><b>Michal Řičica</b><span>Dílna — Spálená 9, Praha 1</span></figcaption>
+      </figure>
+
+    </div>
+  </div>
+
+  <div class="hero__foot container">
+    <div class="hero__foot-inner">
+      <p class="hero__credits">
+        <span>Národní muzeum</span>
+        <span>Velvyslanectví SRN</span>
+        <span>Rudolfinum</span>
+        <span>Židovské muzeum</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     SCROLL SHOT — Michal Řičica shellacking a table top; the plate opens
+     from a small frame to full bleed as the page is scrolled.
+     ========================================================================== -->
+<section class="shot" aria-label="Dílna">
+  <div class="shot__runway">
+    <div class="shot__stage">
+      <figure class="shot__frame">
+        <picture>
+          <source media="(max-width:640px)" srcset="assets/img/michal-ricica-06-m.jpg">
+          <img src="assets/img/michal-ricica-06.jpg" width="2400" height="1589"
+               decoding="async"
+               alt="Michal Řičica ve své dílně leští šelakový povrch dřevěné desky">
+        </picture>
+      </figure>
+      <div class="shot__veil" aria-hidden="true"></div>
+      <div class="shot__cap container">
+        <span>Dílna — Spálená 9, Praha 1</span>
+        <span>Šelaková politura, ručně</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     PŘÍSTUP
+     ========================================================================== -->
+<section class="section" id="pristup">
+  <div class="container">
+    <div class="grid approach__grid">
+
+      <aside class="approach__aside reveal">
+        <p class="label">01 — Přístup</p>
+        <h2 class="display-3" style="margin-top:1.75rem">
+          Dřevo si <em class="em">pamatuje</em><br>každý zásah.
+        </h2>
+
+        <figure class="approach__shot">
+          <picture>
+            <source media="(max-width:640px)" srcset="assets/img/dilna-michal-ricica-02-m.jpg">
+            <img src="assets/img/dilna-michal-ricica-02.jpg" width="1125" height="1500"
+                 loading="lazy" decoding="async"
+                 alt="Michal Řičica ručně dokončuje povrch dřevěné skříňky na pracovním ponku">
+          </picture>
+        </figure>
+      </aside>
+
+      <div class="approach__body">
+        <div class="prose reveal" style="--d:.08s">
+          <p style="font-family:var(--font-display);font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.45;color:var(--ink);max-width:26ch;margin-bottom:1.6rem">
+            Restaurování není výroba. Je to rozhodování o tom, co smí zůstat.
+          </p>
+          <p>
+            Pracuji ručně, s přírodními materiály — klihem, šelakem, včelím voskem, benzínem
+            a dřevem shodným s originálem. Elektrické nástroje používám na minimum: postup je
+            nehlučný, nezapáchající a neškodlivý životnímu prostředí. Předmět se tím vrací
+            do stavu, ve kterém byl zamýšlen, aniž by přišel o svou historii.
+          </p>
+          <p>
+            Od roku 1988 vedu vlastní restaurátorskou živnost v Praze. Za tu dobu prošly dílnou
+            oltáře, zárubně Národního muzea, mobiliáře velvyslanectví i stovky kusů ze
+            soukromých sbírek. Ke každému objektu vzniká restaurátorská zpráva a průběžná
+            fotodokumentace.
+          </p>
+        </div>
+
+        <div class="facts reveal" style="--d:.16s">
+          <div class="fact">
+            <span class="fact__k num">1988</span>
+            <span class="fact__v">Zahájení samostatné restaurátorské živnosti</span>
+          </div>
+          <div class="fact">
+            <span class="fact__k num">1991</span>
+            <span class="fact__v">Obnova kulturních památek a jejich částí, které jsou díly výtvarných umění nebo uměleckořemeslnými pracemi</span>
+          </div>
+          <div class="fact">
+            <span class="fact__k num">1999</span>
+            <span class="fact__v">Členství ČFVU (restaurátor) a ČMS sochařů</span>
+          </div>
+          <div class="fact">
+            <span class="fact__k">Stovky</span>
+            <span class="fact__v">Soukromých sběratelských mobiliářů prošlých dílnou</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     SLUŽBY
+     ========================================================================== -->
+<section class="section section--tight" id="sluzby" style="background:var(--paper-2)">
+  <div class="container">
+    <div class="work__head reveal" style="margin-bottom:clamp(2rem,4vh,3.25rem)">
+      <div>
+        <p class="label">02 — Služby</p>
+        <h2 class="display-2" style="margin-top:1.5rem;max-width:12ch">Co dílna <em class="em">dělá</em></h2>
+      </div>
+      <p class="muted" style="font-size:.92rem;max-width:30ch">
+        Šest okruhů práce. Rozsah i postup se u každé zakázky určuje po prohlídce objektu.
+      </p>
+    </div>
+
+    <div class="services reveal" style="--d:.08s">
+
+      <article class="service">
+        <span class="service__num num">01</span>
+        <h3 class="service__title">Renovace</h3>
+        <p class="service__desc">
+          Ruční repase uměleckořemeslného nábytku. Výhradně přírodní materiály, minimum
+          elektrických spotřebičů — postup nehlučný, nezapáchající, neškodlivý životnímu prostředí.
+        </p>
+      </article>
+
+      <article class="service">
+        <span class="service__num num">02</span>
+        <h3 class="service__title">Opravy starožitného nábytku</h3>
+        <p class="service__desc">
+          Stoly, židle, skříně, komody, sakrální interiéry i externí vchody do domu —
+          dveře a vrata.
+        </p>
+      </article>
+
+      <article class="service">
+        <span class="service__num num">03</span>
+        <h3 class="service__title">Opravy intarzií</h3>
+        <p class="service__desc">
+          Doplnění a scelení dýhovaných a vykládaných ploch identickým materiálem,
+          včetně barevného sjednocení.
+        </p>
+      </article>
+
+      <article class="service">
+        <span class="service__num num">04</span>
+        <h3 class="service__title">Restaurování &amp; repliky</h3>
+        <p class="service__desc">
+          Restaurování a výroba replik dle vlastních návrhů — od jednotlivého kusu
+          po celý interiér.
+        </p>
+      </article>
+
+      <article class="service">
+        <span class="service__num num">05</span>
+        <h3 class="service__title">Autorský nábytek</h3>
+        <p class="service__desc">
+          Výroba nábytku podle vlastního návrhu i podle zadání — solitéry, vestavby,
+          interiérové celky.
+        </p>
+      </article>
+
+      <article class="service">
+        <span class="service__num num">06</span>
+        <h3 class="service__title">Povrchové úpravy</h3>
+        <p class="service__desc">
+          Renovace a obnova povrchových úprav, především šelakových povrchů leštěných
+          do sametového lesku.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     DÍLO — projects. Each card carries its own gallery in data-images;
+     the lightbox reads it from there. To edit a project, edit this block only.
+     ========================================================================== -->
+<section class="section" id="dilo">
+  <div class="container">
+
+    <div class="work__head">
+      <div class="reveal">
+        <p class="label">03 &mdash; Dílo</p>
+        <h2 class="display-2" style="margin-top:1.5rem;max-width:11ch">Vybrané <em class="em">realizace</em></h2>
+      </div>
+      <div class="reveal" style="--d:.08s">
+        <p class="muted" style="font-size:.92rem;max-width:32ch;margin-bottom:1.5rem">
+          Archiv prací od roku 1988. Kliknutím se otevře fotodokumentace zakázky.
+        </p>
+        <div class="filters" role="group" aria-label="Filtr podle kategorie">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">Vše</button>
+          <button class="filter" type="button" data-filter="restaurovani" aria-pressed="false">Restaurování</button>
+          <button class="filter" type="button" data-filter="autorsky" aria-pressed="false">Autorský nábytek</button>
+          <button class="filter" type="button" data-filter="repliky" aria-pressed="false">Repliky</button>
+          <button class="filter" type="button" data-filter="modely" aria-pressed="false">Modely</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="works" id="works">
+      <article data-initial="1" class="work reveal work--wide" data-cat="restaurovani" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Zárubně vstupních dveří, Národní muzeum"
+                data-cat-label="Restaurování"
+                data-note="Spolupráce na restaurování vchodových dveří do Národního muzea v Praze — zárubně, řezby, okna."
+                data-alt="Restaurování dřevěných zárubní a řezeb vstupních dveří Národního muzea v Praze"
+                data-images="assets/img/muzeum-01.jpg|assets/img/muzeum-02.jpg|assets/img/muzeum-04.jpg|assets/img/muzeum-03.jpg|assets/img/muzeum-06.jpg|assets/img/muzeum-07.jpg|assets/img/muzeum-08.jpg">
+          <span class="work__frame">
+            <img src="assets/img/muzeum-01.jpg" alt="Restaurování dřevěných zárubní a řezeb vstupních dveří Národního muzea v Praze" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              7 fotografií
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Zárubně vstupních dveří, Národní muzeum</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Spolupráce na restaurování vchodových dveří do Národního muzea v Praze — zárubně, řezby, okna.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal work--wide" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Kaple Trauttmannsdorfského paláce"
+                data-cat-label="Restaurování"
+                data-note="Restaurování dřevěného mobiliáře a vybavení palácové kaple."
+                data-alt="Restaurovaný dřevěný interiér kaple Trauttmannsdorfského paláce"
+                data-start="2"
+                data-images="assets/img/kaple-trauttmannsdorfskeho-palace-01.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-02.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-03.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-04.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-05.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-06.jpg">
+          <span class="work__frame">
+            <img src="assets/img/kaple-trauttmannsdorfskeho-palace-03.jpg" alt="Restaurovaný dřevěný interiér kaple Trauttmannsdorfského paláce" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              6 fotografií
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Kaple Trauttmannsdorfského paláce</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování dřevěného mobiliáře a vybavení palácové kaple.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Vrata, Stará Boleslav"
+                data-cat-label="Restaurování"
+                data-note="Repase historických vrat."
+                data-alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi"
+                data-images="assets/img/vrata-stara-boleslav-01.jpg|assets/img/vrata-stara-boleslav-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/vrata-stara-boleslav-01.jpg" alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Vrata, Stará Boleslav</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase historických vrat.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal" data-cat="restaurovani" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Barokní komoda, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Kompletní repase včetně dýhovaných ploch a kování."
+                data-alt="Restaurovaná barokní komoda s dýhovanou přední stranou ze soukromé sbírky"
+                data-images="assets/img/barokni-komoda-soukroma-sbirka-01.jpg|assets/img/barokni-komoda-soukroma-sbirka-02.jpg|assets/img/barokni-komoda-soukroma-sbirka-03.jpg|assets/img/barokni-komoda-soukroma-sbirka-04.jpg|assets/img/barokni-komoda-soukroma-sbirka-05.jpg|assets/img/barokni-komoda-soukroma-sbirka-06.jpg">
+          <span class="work__frame">
+            <img src="assets/img/barokni-komoda-soukroma-sbirka-01.jpg" alt="Restaurovaná barokní komoda s dýhovanou přední stranou ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              6 fotografií
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Barokní komoda, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Kompletní repase včetně dýhovaných ploch a kování.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Barokní komoda — rozebraný korpus"
+                data-cat-label="Restaurování"
+                data-note="Rozebrání, sklížení a obnova šelakového povrchu."
+                data-alt="Rozebraná barokní komoda s vyjmutými zásuvkami v restaurátorské dílně"
+                data-images="assets/img/barokni-komoda-01.jpg|assets/img/barokni-komoda-02.jpg|assets/img/barokni-komoda-03.jpg|assets/img/barokni-komoda-04.jpg">
+          <span class="work__frame">
+            <img src="assets/img/barokni-komoda-01.jpg" alt="Rozebraná barokní komoda s vyjmutými zásuvkami v restaurátorské dílně" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              4 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Barokní komoda — rozebraný korpus</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Rozebrání, sklížení a obnova šelakového povrchu.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Komoda, klášter Znojemské Hradiště"
+                data-cat-label="Restaurování"
+                data-note="Restaurování mobiliáře klášterního interiéru."
+                data-alt="Restaurovaná komoda z kláštera Znojemské Hradiště"
+                data-start="1"
+                data-images="assets/img/komoda-klaster-znojemske-hradiste-01.jpg|assets/img/komoda-klaster-znojemske-hradiste-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/komoda-klaster-znojemske-hradiste-02.jpg" alt="Restaurovaná komoda z kláštera Znojemské Hradiště" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Komoda, klášter Znojemské Hradiště</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování mobiliáře klášterního interiéru.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Vchodové dveře, Česká spořitelna — Rytířská"
+                data-cat-label="Restaurování"
+                data-note="Repase vstupních dveří bankovní budovy."
+                data-alt="Restaurované vchodové dveře budovy České spořitelny v Rytířské ulici"
+                data-images="assets/img/sporitelna-rytirska-01.jpg|assets/img/sporitelna-rytirska-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/sporitelna-rytirska-01.jpg" alt="Restaurované vchodové dveře budovy České spořitelny v Rytířské ulici" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Vchodové dveře, Česká spořitelna — Rytířská</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase vstupních dveří bankovní budovy.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Domovní dveře, Templová"
+                data-cat-label="Restaurování"
+                data-note="Repase domovních dveří v historickém jádru Prahy."
+                data-alt="Restaurované historické domovní dveře v Templové ulici v Praze"
+                data-images="assets/img/templova-01.jpg|assets/img/templova-02.jpg|assets/img/templova-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/templova-01.jpg" alt="Restaurované historické domovní dveře v Templové ulici v Praze" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Domovní dveře, Templová</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase domovních dveří v historickém jádru Prahy.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Domovní dveře, Šeříková"
+                data-cat-label="Restaurování"
+                data-note="Repase domovních dveří v historickém jádru Prahy."
+                data-alt="Restaurované historické domovní dveře v Šeříkové ulici v Praze"
+                data-images="assets/img/serikova.jpg">
+          <span class="work__frame">
+            <img src="assets/img/serikova.jpg" alt="Restaurované historické domovní dveře v Šeříkové ulici v Praze" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Domovní dveře, Šeříková</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase domovních dveří v historickém jádru Prahy.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Malovaná skříň, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Restaurování dřeva a fixace původní malby."
+                data-alt="Restaurovaná lidová malovaná skříň ze soukromé sbírky"
+                data-images="assets/img/skrin-malovana-01.jpg|assets/img/skrin-malovana-02.jpg|assets/img/skrin-malovana-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/skrin-malovana-01.jpg" alt="Restaurovaná lidová malovaná skříň ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Malovaná skříň, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování dřeva a fixace původní malby.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Malovaná truhla, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Restaurování truhlářské konstrukce a povrchu."
+                data-alt="Restaurovaná lidová malovaná truhla ze soukromé sbírky"
+                data-images="assets/img/malovana-truhla-sk.jpg">
+          <span class="work__frame">
+            <img src="assets/img/malovana-truhla-sk.jpg" alt="Restaurovaná lidová malovaná truhla ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Malovaná truhla, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování truhlářské konstrukce a povrchu.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Truhla s ptáčky"
+                data-cat-label="Restaurování"
+                data-note="Restaurování dřevěné truhly s malovaným dekorem."
+                data-alt="Restaurovaná dřevěná truhla s malovaným dekorem ptáků"
+                data-images="assets/img/truhla-s-ptacky-01.jpg|assets/img/truhla-s-ptacky-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/truhla-s-ptacky-01.jpg" alt="Restaurovaná dřevěná truhla s malovaným dekorem ptáků" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Truhla s ptáčky</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování dřevěné truhly s malovaným dekorem.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Komoda biedermeier, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Repase dýhy a obnova šelakového povrchu."
+                data-alt="Restaurovaná biedermeierovská komoda ze soukromé sbírky"
+                data-images="assets/img/soukroma-sbirka-komoda-biedermeyer-01.jpg|assets/img/soukroma-sbirka-komoda-biedermeyer-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/soukroma-sbirka-komoda-biedermeyer-01.jpg" alt="Restaurovaná biedermeierovská komoda ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Komoda biedermeier, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase dýhy a obnova šelakového povrchu.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Zrcadlo, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Restaurování řezaného a zlaceného rámu."
+                data-alt="Restaurovaný zdobný rám historického zrcadla ze soukromé sbírky"
+                data-images="assets/img/zrcadlo-01.jpg|assets/img/zrcadlo-02.jpg|assets/img/zrcadlo-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/zrcadlo-01.jpg" alt="Restaurovaný zdobný rám historického zrcadla ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Zrcadlo, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování řezaného a zlaceného rámu.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Orientální truhlice"
+                data-cat-label="Restaurování"
+                data-note="Restaurování vykládané truhlice."
+                data-alt="Restaurovaná orientální truhlice s vykládaným dekorem"
+                data-images="assets/img/orientalni-truhlice-01.jpg|assets/img/orientalni-truhlice-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/orientalni-truhlice-01.jpg" alt="Restaurovaná orientální truhlice s vykládaným dekorem" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Orientální truhlice</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Restaurování vykládané truhlice.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Stolek, soukromá sbírka"
+                data-cat-label="Restaurování"
+                data-note="Repase konstrukce a povrchové úpravy."
+                data-alt="Restaurovaný historický stolek ze soukromé sbírky"
+                data-images="assets/img/stolek-01.jpg">
+          <span class="work__frame">
+            <img src="assets/img/stolek-01.jpg" alt="Restaurovaný historický stolek ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Stolek, soukromá sbírka</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Repase konstrukce a povrchové úpravy.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="restaurovani" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Kovový trezor"
+                data-cat-label="Restaurování"
+                data-note="Obnova historického trezoru včetně povrchu."
+                data-alt="Restaurovaný historický kovový trezor"
+                data-images="assets/img/kovovy-trezor.jpg">
+          <span class="work__frame">
+            <img src="assets/img/kovovy-trezor.jpg" alt="Restaurovaný historický kovový trezor" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Kovový trezor</span>
+            <span class="work__cat">Restaurování</span>
+          </span>
+          <span class="work__note">Obnova historického trezoru včetně povrchu.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal work--wide" data-cat="autorsky" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Židle — vlastní design"
+                data-cat-label="Autorský nábytek"
+                data-note="Autorská řada židlí, od dýhování a tvarování opěradla po finální povrch."
+                data-alt="Židle vlastního designu Michala Řičici ve fázích výroby v dílně"
+                data-start="1"
+                data-images="assets/img/zidle-michal-ricica-01.jpg|assets/img/zidle-michal-ricica-02.jpg|assets/img/zidle-michal-ricica-03.jpg|assets/img/zidle-michal-ricica-04.jpg|assets/img/zidle-michal-ricica-05.jpg|assets/img/zidle-michal-ricica-06.jpg|assets/img/zidle-michal-ricica-07.jpg">
+          <span class="work__frame">
+            <img src="assets/img/zidle-michal-ricica-02.jpg" alt="Židle vlastního designu Michala Řičici ve fázích výroby v dílně" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              7 fotografií
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Židle — vlastní design</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Autorská řada židlí, od dýhování a tvarování opěradla po finální povrch.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal" data-cat="autorsky" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Řečnický pult pro Ministerstvo zahraničních věcí"
+                data-cat-label="Autorský nábytek"
+                data-note="Autorský návrh a výroba."
+                data-alt="Dřevěný řečnický pult vyrobený pro Ministerstvo zahraničních věcí"
+                data-start="1"
+                data-images="assets/img/recnicky-pult-pro-MZV-01.jpg|assets/img/recnicky-pult-pro-MZV-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/recnicky-pult-pro-MZV-02.jpg" alt="Dřevěný řečnický pult vyrobený pro Ministerstvo zahraničních věcí" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Řečnický pult pro Ministerstvo zahraničních věcí</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Autorský návrh a výroba.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="autorsky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Regály pro knihkupectví Paseka"
+                data-cat-label="Autorský nábytek"
+                data-note="Interiérová vestavba knihkupectví."
+                data-alt="Dřevěné knihovní regály vyrobené pro knihkupectví Paseka"
+                data-images="assets/img/knihkupectvi-regaly-paseka-01.jpg|assets/img/knihkupectvi-regaly-paseka-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/knihkupectvi-regaly-paseka-01.jpg" alt="Dřevěné knihovní regály vyrobené pro knihkupectví Paseka" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Regály pro knihkupectví Paseka</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Interiérová vestavba knihkupectví.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="autorsky" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Sloupky Danhauser"
+                data-cat-label="Autorský nábytek"
+                data-note="Soustružené a řezané sloupky."
+                data-alt="Soustružené dřevěné sloupky v provedení Danhauser"
+                data-images="assets/img/sloupek-01.jpg|assets/img/sloupek-02.jpg|assets/img/sloupek-03.jpg|assets/img/sloupek-04.jpg">
+          <span class="work__frame">
+            <img src="assets/img/sloupek-01.jpg" alt="Soustružené dřevěné sloupky v provedení Danhauser" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              4 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Sloupky Danhauser</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Soustružené a řezané sloupky.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="autorsky" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Skříňka — Gerrit Thomas Rietveld"
+                data-cat-label="Autorský nábytek"
+                data-note="Provedení podle návrhu Gerrita Thomase Rietvelda."
+                data-alt="Dřevěná skříňka vyrobená podle návrhu Gerrita Thomase Rietvelda"
+                data-images="assets/img/skrinka-Gerrit-Thomas-Rietveld-01.jpg|assets/img/skrinka-Gerrit-Thomas-Rietveld-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/skrinka-Gerrit-Thomas-Rietveld-01.jpg" alt="Dřevěná skříňka vyrobená podle návrhu Gerrita Thomase Rietvelda" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Skříňka — Gerrit Thomas Rietveld</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Provedení podle návrhu Gerrita Thomase Rietvelda.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="autorsky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Stůl — vlastní design"
+                data-cat-label="Autorský nábytek"
+                data-note="Autorský návrh a výroba jídelního stolu."
+                data-alt="Jídelní stůl vlastního designu Michala Řičici"
+                data-images="assets/img/stul-vlastni-design.jpg">
+          <span class="work__frame">
+            <img src="assets/img/stul-vlastni-design.jpg" alt="Jídelní stůl vlastního designu Michala Řičici" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Stůl — vlastní design</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Autorský návrh a výroba jídelního stolu.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="autorsky" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Postel — vlastní design"
+                data-cat-label="Autorský nábytek"
+                data-note="Autorský návrh a výroba postele."
+                data-alt="Dřevěná postel vlastního designu Michala Řičici"
+                data-images="assets/img/postel-vlastni-design.jpg">
+          <span class="work__frame">
+            <img src="assets/img/postel-vlastni-design.jpg" alt="Dřevěná postel vlastního designu Michala Řičici" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Postel — vlastní design</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Autorský návrh a výroba postele.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="autorsky" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Jelen"
+                data-cat-label="Autorský nábytek"
+                data-note="Řezaný dřevěný objekt."
+                data-alt="Řezaný dřevěný objekt jelena"
+                data-images="assets/img/jelen-dreveny.jpg">
+          <span class="work__frame">
+            <img src="assets/img/jelen-dreveny.jpg" alt="Řezaný dřevěný objekt jelena" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Jelen</span>
+            <span class="work__cat">Autorský nábytek</span>
+          </span>
+          <span class="work__note">Řezaný dřevěný objekt.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal" data-cat="repliky" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Židle — replika"
+                data-cat-label="Repliky"
+                data-note="Replika historické židle zhotovená podle originálu."
+                data-alt="Repliky historických židlí s vyřezávaným opěradlem v dílně"
+                data-images="assets/img/zidle-replika-01.jpg|assets/img/zidle-replika-02.jpg|assets/img/zidle-replika-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/zidle-replika-01.jpg" alt="Repliky historických židlí s vyřezávaným opěradlem v dílně" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Židle — replika</span>
+            <span class="work__cat">Repliky</span>
+          </span>
+          <span class="work__note">Replika historické židle zhotovená podle originálu.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal" data-cat="repliky" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Hodiny — replika"
+                data-cat-label="Repliky"
+                data-note="Replika dřevěné skříně hodin."
+                data-alt="Replika dřevěné skříně historických hodin"
+                data-images="assets/img/hodiny-replika.jpg">
+          <span class="work__frame">
+            <img src="assets/img/hodiny-replika.jpg" alt="Replika dřevěné skříně historických hodin" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Hodiny — replika</span>
+            <span class="work__cat">Repliky</span>
+          </span>
+          <span class="work__note">Replika dřevěné skříně hodin.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="repliky" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Stolek — kopie Gočár"
+                data-cat-label="Repliky"
+                data-note="Kopie stolku podle návrhu Josefa Gočára."
+                data-alt="Kopie stolku podle návrhu Josefa Gočára"
+                data-images="assets/img/stolek-kopie-gocar.jpg">
+          <span class="work__frame">
+            <img src="assets/img/stolek-kopie-gocar.jpg" alt="Kopie stolku podle návrhu Josefa Gočára" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Stolek — kopie Gočár</span>
+            <span class="work__cat">Repliky</span>
+          </span>
+          <span class="work__note">Kopie stolku podle návrhu Josefa Gočára.</span>
+        </button>
+      </article>
+      <article data-initial="1" class="work reveal work--wide" data-cat="modely" style="--d:0.07s">
+        <button class="work__btn" type="button"
+                data-title="Modely židovské synagogy"
+                data-cat-label="Modely"
+                data-note="Modely pro výstavu v synagoze Nová Cerekev — devět modelů synagog pro Židovské muzeum."
+                data-alt="Dřevěné modely synagog pro výstavu v synagoze Nová Cerekev"
+                data-start="1"
+                data-images="assets/img/modely-zidovske-synagogy-01.jpg|assets/img/modely-zidovske-synagogy-02.jpg|assets/img/modely-zidovske-synagogy-03.jpg">
+          <span class="work__frame">
+            <img src="assets/img/modely-zidovske-synagogy-02.jpg" alt="Dřevěné modely synagog pro výstavu v synagoze Nová Cerekev" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              3 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Modely židovské synagogy</span>
+            <span class="work__cat">Modely</span>
+          </span>
+          <span class="work__note">Modely pro výstavu v synagoze Nová Cerekev — devět modelů synagog pro Židovské muzeum.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="modely" style="--d:0.14s">
+        <button class="work__btn" type="button"
+                data-title="Model auta, 30. léta"
+                data-cat-label="Modely"
+                data-note="Velikost 30 cm."
+                data-alt="Dřevěný model automobilu ze 30. let, velikost 30 cm"
+                data-images="assets/img/auto.jpg">
+          <span class="work__frame">
+            <img src="assets/img/auto.jpg" alt="Dřevěný model automobilu ze 30. let, velikost 30 cm" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              1 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Model auta, 30. léta</span>
+            <span class="work__cat">Modely</span>
+          </span>
+          <span class="work__note">Velikost 30 cm.</span>
+        </button>
+      </article>
+      <article class="work reveal" data-cat="modely" style="--d:0.0s">
+        <button class="work__btn" type="button"
+                data-title="Loutky, soukromá sbírka"
+                data-cat-label="Modely"
+                data-note="Restaurování a doplnění dřevěných loutek."
+                data-alt="Dřevěné loutky ze soukromé sbírky"
+                data-start="1"
+                data-images="assets/img/loutky-soukroma-sbirka-01.jpg|assets/img/loutky-soukroma-sbirka-02.jpg">
+          <span class="work__frame">
+            <img src="assets/img/loutky-soukroma-sbirka-02.jpg" alt="Dřevěné loutky ze soukromé sbírky" width="1400" height="944" loading="lazy" decoding="async">
+            <span class="work__count">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+              2 fotografie
+            </span>
+          </span>
+          <span class="work__meta">
+            <span class="work__title">Loutky, soukromá sbírka</span>
+            <span class="work__cat">Modely</span>
+          </span>
+          <span class="work__note">Restaurování a doplnění dřevěných loutek.</span>
+        </button>
+      </article>
+    </div>
+
+    <div class="works__more reveal">
+      <button class="btn btn--ghost" id="works-more" type="button" aria-controls="works">
+        <span>Zobrazit dalších 23 realizací</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================================================
+     PŘÍPADOVÁ STUDIE — František Bílek: Poslední večeře
+     Text is the original restaurátorská zpráva.
+     ========================================================================== -->
+<section class="section dark" id="bilek">
+  <div class="container">
+    <div class="grid case__grid">
+
+      <div class="case__media reveal">
+        <div class="case__stack">
+          <figure>
+            <button type="button" class="case-open" data-index="0" aria-label="Zvětšit fotografii — praskliny v reliéfu před restaurováním">
+              <img src="assets/img/frantisek-bilek-posledni-vecere-01.jpg" width="1400" height="944" loading="lazy" decoding="async"
+                   alt="Detail praskliny procházející řezaným nápisem a postavami reliéfu Poslední večeře před restaurováním">
+            </button>
+          </figure>
+          <figure>
+            <button type="button" class="case-open" data-index="1" aria-label="Zvětšit fotografii — reliéf v ateliéru">
+              <img src="assets/img/frantisek-bilek-posledni-vecere-02.jpg" width="1400" height="944" loading="lazy" decoding="async"
+                   alt="Dřevěný reliéf Poslední večeře Františka Bílka v restaurátorském ateliéru">
+            </button>
+          </figure>
+          <figure>
+            <button type="button" class="case-open" data-index="2" aria-label="Zvětšit fotografii — stažení spáry ztužidly">
+              <img src="assets/img/frantisek-bilek-posledni-vecere-03.jpg" width="1400" height="944" loading="lazy" decoding="async"
+                   alt="Sklížená spára reliéfu stažená ztužidly během restaurování">
+            </button>
+          </figure>
+          <figure>
+            <button type="button" class="case-open" data-index="3" aria-label="Zvětšit fotografii — motýlový spoj na rubu">
+              <img src="assets/img/frantisek-bilek-posledni-vecere-04.jpg" width="1400" height="944" loading="lazy" decoding="async"
+                   alt="Zadní strana reliéfu se smrkovým rámem a vsazeným motýlovým spojem">
+            </button>
+          </figure>
+          <figure>
+            <button type="button" class="case-open" data-index="4" aria-label="Zvětšit fotografii — reliéf po přeleštění">
+              <img src="assets/img/frantisek-bilek-posledni-vecere-05.jpg" width="1400" height="944" loading="lazy" decoding="async"
+                   alt="Reliéf Poslední večeře po scelení spáry a přeleštění do sametového lesku">
+            </button>
+          </figure>
+        </div>
+      </div>
+
+      <div class="case__body reveal" style="--d:.1s">
+        <p class="label">04 &mdash; Případová studie</p>
+        <p class="case__client">Galerie hlavního města Prahy</p>
+        <h2 class="display-2 case__title" style="max-width:13ch">František Bílek:<br><em class="em">Poslední večeře</em></h2>
+        <p class="lead" style="margin-top:1.75rem">
+          Restaurování dřevěného reliéfu — masivní blok olšového dřeva 138 &times; 108 &times; 10 cm,
+          sklížený do spárovky a osazený smrkovým rámem.
+        </p>
+
+        <div class="acc">
+
+          <div class="acc__item">
+            <button class="acc__btn" type="button" aria-expanded="true" aria-controls="acc-1">
+              Popis objektu
+              <span class="acc__icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc__panel" id="acc-1" data-open="true">
+              <div><div class="acc__inner">
+                <p>
+                  Jedná se o masivní blok z olšového dřeva o rozměrech 138 &times; 108 &times; 10 cm,
+                  sklížený do spárovky a osazený na zadní straně smrkovým rámem, jenž je připevněn
+                  vruty do masivu plastiky. Z přední strany je vyřezán reliéf skupiny postav.
+                  V horní polovině masivu je znatelná prasklina cca 4 mm, která se táhne do hloubky
+                  celého reliéfu. Po okrajích praskliny jsou patrné zbytky neidentifikovatelného
+                  lepidla. Celkový povrch reliéfu je mírně omšelý a zaprášený. Stav bez známky
+                  dřevokazného hmyzu.
+                </p>
+              </div></div>
+            </div>
+          </div>
+
+          <div class="acc__item">
+            <button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-2">
+              Návrh na restaurování
+              <span class="acc__icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc__panel" id="acc-2" data-open="false">
+              <div><div class="acc__inner">
+                <p>
+                  Reliéf je nutno převézt do ateliéru. Po důkladné prohlídce a fotodokumentaci
+                  následuje demontáž odnímatelného smrkového rámu, připevněného zezadu železnými
+                  vruty. Po proklížení spáry je nutno celý reliéf stáhnout do ztužidel, čímž by se
+                  spára měla zcela uzavřít. Po sklížení a zaschnutí lepidla se opět osadí smrkový rám.
+                  Pokud nedojde ke kompletnímu zatažení spáry, bude nutno přistoupit k vysazení
+                  identickým materiálem (přešpánování) a částečně dotmelit nedovřené části spáry.
+                  Po přečištění spáry a barevném sjednocení dojde k přečištění celého povrchu suchým
+                  procesem a k napuštění přípravkem proti dřevokaznému hmyzu a plísním. Následuje
+                  nanesení voskové emulze (včelí vosk rozpuštěný v benzínu). Poté se celý povrch
+                  finálně přeleští hadrem a kartáčem do sametového lesku.
+                </p>
+              </div></div>
+            </div>
+          </div>
+
+          <div class="acc__item">
+            <button class="acc__btn" type="button" aria-expanded="false" aria-controls="acc-3">
+              Postup prací &mdash; 15 kroků
+              <span class="acc__icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc__panel" id="acc-3" data-open="false">
+              <div><div class="acc__inner">
+                <ol class="steps">
+                  <li>návrh na restaurování, seznámení s objektem</li>
+                  <li>převoz do ateliéru</li>
+                  <li>prohlídka, fotodokumentace</li>
+                  <li>demontáž smrkového rámu</li>
+                  <li>prolepení spáry, vsazení špánu a její následné stažení ztužidly</li>
+                  <li>pojištění spáry zezadu vsazením motýlového spoje</li>
+                  <li>osazení smrkového rámu zpět na místo</li>
+                  <li>očištění od zbytku lepidla</li>
+                  <li>špánování nedovřených částí spáry identickým materiálem</li>
+                  <li>přetmelení a retuš, barevné sjednocení</li>
+                  <li>celkové přečištění od nánosu usazenin a prachových částic</li>
+                  <li>napuštění přípravkem proti dřevokaznému hmyzu a plísním</li>
+                  <li>nanášení voskové emulze a finální přeleštění</li>
+                  <li>celková průběžná fotodokumentace</li>
+                  <li>převoz do galerie</li>
+                </ol>
+              </div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     DÍLNA — interlude. Two plates from the workshop; either opens the full set.
+     ========================================================================== -->
+<section class="dilna" aria-label="Dílna">
+  <div class="container">
+    <div class="dilna__grid">
+
+      <div class="dilna__head">
+      <div class="dilna__lede reveal">
+        <p class="label">Dílna</p>
+        <h2 class="display-3" style="margin-top:1.25rem">
+          Spálená&nbsp;9,<br><em class="em">Praha 1</em>
+        </h2>
+        <p class="prose" style="margin-top:1.5rem">
+          Ruční nástroje, klih, šelak a včelí vosk. Postup je nehlučný a bez zápachu —
+          práce na jednom kusu tu trvá tak dlouho, jak potřebuje.
+        </p>
+        <p style="margin-top:1.75rem">
+          <button class="btn btn--ghost dilna-open" type="button" data-index="0">
+            <span>Prohlédnout dílnu</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+          </button>
+        </p>
+      </div>
+
+      <p class="dilna__cap reveal" style="--d:.04s">
+        Dílnu vedu na Spálené od roku 1988. Kus si sem můžete přinést na prohlídku —
+        rozsah práce i cenu určuji až podle toho, co dřevo unese.
+      </p>
+      </div>
+
+      <div class="dilna__band">
+      <figure class="dilna__plate dilna__plate--wide reveal" style="--d:.08s">
+        <button class="plate__btn dilna-open" type="button" data-index="0"
+                aria-label="Otevřít galerii dílny — Michal Řičica s vyřezávaným andělem">
+          <span class="plate__frame">
+            <picture>
+              <source media="(max-width:640px)" srcset="assets/img/michal-ricica-andel-02-m.jpg">
+              <img src="assets/img/michal-ricica-andel-02.jpg" width="1500" height="1125"
+                   loading="lazy" decoding="async"
+                   alt="Michal Řičica stojí ve své dílně vedle vyřezávané dřevěné sochy anděla">
+            </picture>
+          </span>
+        </button>
+        <figcaption class="plate__cap"><b>Vyřezávaný anděl</b><span>V dílně</span></figcaption>
+      </figure>
+
+      <figure class="dilna__plate dilna__plate--tall reveal" style="--d:.16s">
+        <button class="plate__btn dilna-open" type="button" data-index="5"
+                aria-label="Otevřít galerii dílny — práce u pracovního stolu">
+          <span class="plate__frame">
+            <picture>
+              <source media="(max-width:640px)" srcset="assets/img/dilna-michal-ricica-03-m.jpg">
+              <img src="assets/img/dilna-michal-ricica-03.jpg" width="1125" height="1500"
+                   loading="lazy" decoding="async"
+                   alt="Michal Řičica pracuje na desce stolu položené na kozách uprostřed dílny">
+            </picture>
+          </span>
+        </button>
+        <figcaption class="plate__cap"><b>U ponku</b><span>Ruční dokončování</span></figcaption>
+      </figure>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     ŽIVOTOPIS
+     ========================================================================== -->
+<section class="section" id="zivotopis">
+  <div class="container">
+    <div class="grid cv__grid">
+
+      <aside class="cv__aside reveal">
+        <p class="label">05 &mdash; Životopis</p>
+        <h2 class="display-2" style="margin-top:1.5rem;max-width:9ch">Michal <em class="em">Řičica</em></h2>
+        <p class="muted" style="margin-top:1.25rem;font-size:.95rem">
+          <span class="num">1952</span> &middot; umělecký truhlář a restaurátor historického nábytku
+        </p>
+        <div class="cv__portrait">
+          <picture>
+            <source media="(max-width:640px)" srcset="assets/img/michal-ricica-andel-01-m.jpg">
+            <img src="assets/img/michal-ricica-andel-01.jpg" width="1125" height="1500"
+                 loading="lazy" decoding="async"
+                 alt="Michal Řičica ve své dílně vedle vyřezávané sochy anděla v životní velikosti">
+          </picture>
+        </div>
+      </aside>
+
+      <div class="cv__body">
+
+        <div class="tl__group reveal" style="--d:.06s">
+          <h3 class="tl__head">Vzdělání</h3>
+          <div class="tl__row">
+            <span class="tl__year num">1955 — 1965</span>
+            <span class="tl__what">ZDŠ Vratislavova</span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1966 — 1975</span>
+            <span class="tl__what">Bytová tvorba <span class="tl__note">vyučen umělecký truhlář</span></span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1969 — 1974</span>
+            <span class="tl__what">Ježkova střední odborná konzervatoř</span>
+          </div>
+        </div>
+
+        <div class="tl__group reveal" style="--d:.06s">
+          <h3 class="tl__head">Praxe</h3>
+          <div class="tl__row">
+            <span class="tl__year num">1970</span>
+            <span class="tl__what">Praxe v bytové tvorbě, Praha</span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1975 — 1980</span>
+            <span class="tl__what">Uměleckoprůmyslová škola <span class="tl__note">lektor v dílně designu</span></span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1981</span>
+            <span class="tl__what">Městská divadla pražská <span class="tl__note">výroba kulis a dekorací</span></span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1985</span>
+            <span class="tl__what">Památník písemnictví <span class="tl__note">restaurátorská dílna</span></span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1988</span>
+            <span class="tl__what">Zahájení živnosti <span class="tl__note">restaurátorství</span></span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1996 — 2005</span>
+            <span class="tl__what">Středisko praktického vyučování uměleckého truhláře <span class="tl__note">při Střední škole Podkovářské</span></span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">2011 — 2015</span>
+            <span class="tl__what">Uměleckoprůmyslová škola <span class="tl__note">dílna designu</span></span>
+          </div>
+        </div>
+
+        <div class="tl__group reveal" style="--d:.06s">
+          <h3 class="tl__head">Členství</h3>
+          <div class="tl__row">
+            <span class="tl__year num">1999</span>
+            <span class="tl__what">ČFVU &mdash; restaurátor</span>
+          </div>
+          <div class="tl__row">
+            <span class="tl__year num">1999</span>
+            <span class="tl__what">ČMS sochařů</span>
+          </div>
+
+          <div class="licence">
+            <strong>Od roku 1991</strong> — obnova kulturních památek nebo jejich částí, které jsou
+            díly výtvarných umění nebo uměleckořemeslnými pracemi.<br>
+            <span class="muted num" style="letter-spacing:.06em">MK-S 11759/2012 OPP</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     REFERENCE
+     ========================================================================== -->
+<section class="section section--tight" id="reference" style="background:var(--paper-2)">
+  <div class="container">
+
+    <div class="work__head reveal" style="margin-bottom:clamp(2.5rem,5vh,4rem)">
+      <div>
+        <p class="label">06 &mdash; Reference</p>
+        <h2 class="display-2" style="margin-top:1.5rem;max-width:11ch">Realizace <em class="em">od roku 1988</em></h2>
+      </div>
+      <p class="muted" style="font-size:.92rem;max-width:30ch">
+        Výběr z veřejných, památkových a soukromých zakázek.
+      </p>
+    </div>
+
+    <div class="refs">
+
+      <div class="refgroup reveal">
+        <div class="refgroup__head">
+          <h3 class="refgroup__title">Veřejný sektor</h3>
+          <span class="refgroup__count num">15</span>
+        </div>
+        <ul class="reflist">
+          <li>Mobiliáře Velvyslanectví Spolkové republiky Německo, Praha</li>
+          <li>Repase mobiliáře Velvyslanectví USA, Praha</li>
+          <li>Mobiliáře Ministerstvo zahraničních věcí</li>
+          <li>Mobiliáře Velvyslanectví Španělska</li>
+          <li>Repase mobiliáře Velvyslanectví České republiky v USA, Washington</li>
+          <li>Repase mobiliáře Velvyslanectví České republiky v Turecku, Ankara</li>
+          <li>Interiér kanceláře Ministerstva financí ČR</li>
+          <li>Oprava mobiliáře salonku primátora hl. m. Prahy</li>
+          <li>Oprava mobiliáře ředitelny, Česká filharmonie &mdash; Rudolfinum</li>
+          <li>Mobiliáře Městské knihovny v Praze, Mariánské náměstí</li>
+          <li>Psací stůl pro ředitele Akademie věd, Praha</li>
+          <li>Dveře pro Plzeňskou radnici</li>
+          <li>Mobiliáře pro zámek ve Žďáru nad Sázavou</li>
+          <li>Vchodové dveře VŠUP, Palachovo náměstí</li>
+          <li>Zárubně vstupních dveří pro Národní muzeum v Praze</li>
+        </ul>
+      </div>
+
+      <div class="refgroup reveal" style="--d:.08s">
+        <div class="refgroup__head">
+          <h3 class="refgroup__title">Památkové &amp; sakrální objekty</h3>
+          <span class="refgroup__count num">6</span>
+        </div>
+        <ul class="reflist">
+          <li>Montáž převezeného devítimetrového oltáře sv. Trojice, kostel sv. Petra a Pavla v Bílině</li>
+          <li>Mobiliáře pro Řád křižovníků s červenou hvězdou, Platnéřská ul.</li>
+          <li>Mobiliář pro Řád kapucínů, Loretánské náměstí</li>
+          <li>Oltář kostela v Bílině</li>
+          <li>Mobiliář kostela v Chomutově</li>
+          <li>Devět modelů synagog pro Židovské muzeum, synagoga Nová Cerekev</li>
+        </ul>
+
+        <div class="refgroup__head" style="margin-top:clamp(2.5rem,5vh,3.5rem)">
+          <h3 class="refgroup__title">Finanční instituce</h3>
+          <span class="refgroup__count num">1</span>
+        </div>
+        <ul class="reflist">
+          <li>Vstupní dveře, Česká spořitelna v Rytířské</li>
+        </ul>
+
+        <div class="refgroup__head" style="margin-top:clamp(2.5rem,5vh,3.5rem)">
+          <h3 class="refgroup__title">Soukromé objekty</h3>
+          <span class="refgroup__count num">4</span>
+        </div>
+        <ul class="reflist">
+          <li>Repase domovních dveří v ulicích Spálená, Dlouhá, Šeříkova, Templová, Široká</li>
+          <li>Repase barokního dřevěného schodiště, Mostecká ul.</li>
+          <li>Zařízení interiéru kanceláří</li>
+          <li>Stovky soukromých sběratelských mobiliářů</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     KONTAKT
+     ========================================================================== -->
+<section class="section dark" id="kontakt">
+  <div class="container">
+    <div class="grid contact__grid">
+
+      <div class="contact__body reveal">
+        <p class="label">07 &mdash; Kontakt</p>
+        <h2 class="display-2" style="margin-top:1.5rem;max-width:12ch">Přineste <em class="em">kus</em> na prohlídku</h2>
+        <p class="lead" style="margin-top:1.75rem">
+          Rozsah práce i cenu určuji až po prohlídce objektu. Ozvěte se telefonicky nebo
+          e-mailem &mdash; domluvíme termín v dílně.
+        </p>
+
+        <div class="contact__lines">
+          <div class="cline">
+            <span class="cline__k">Telefon</span>
+            <span class="cline__v"><a href="tel:+420777183280" class="num">+420 777 183 280</a></span>
+          </div>
+          <div class="cline">
+            <span class="cline__k">E-mail</span>
+            <span class="cline__v"><a href="mailto:ebenist@centrum.cz">ebenist@centrum.cz</a></span>
+          </div>
+          <div class="cline">
+            <span class="cline__k">Adresa</span>
+            <span class="cline__v">Spálená 9<br>110 00 Praha 1</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:.85rem;margin-top:clamp(2rem,4vh,3rem)">
+          <a class="btn btn--brass" href="tel:+420777183280">
+            <span>Zavolat</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1Z"/></svg>
+          </a>
+          <a class="btn btn--ghost-light" href="mailto:ebenist@centrum.cz"><span>Napsat e-mail</span></a>
+        </div>
+      </div>
+
+      <div class="contact__map reveal" style="--d:.1s">
+        <figure class="mapcard">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m3!2m1!1sSp%C3%A1len%C3%A1+9,+110+00+Praha+1!6i17!3m1!1scs!5m1!1scs"
+                  title="Google Mapy — Spálená 9, 110 00 Praha 1"
+                  loading="lazy" allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </figure>
+        <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Sp%C3%A1len%C3%A1+9%2C+110+00+Praha+1"
+           target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span>Otevřít v Google Mapách</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==========================================================================
+     FOOTER
+     ========================================================================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <span>&copy; <span class="num" id="year">2026</span> Michal Řičica &mdash; ebenist &amp; restaurátor</span>
+      <span>
+        <a href="tel:+420777183280" class="num">+420 777 183 280</a>
+        &nbsp;&middot;&nbsp;
+        <a href="mailto:ebenist@centrum.cz">ebenist@centrum.cz</a>
+      </span>
+      <a class="totop" href="#uvod">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+        Nahoru
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- ==========================================================================
+     LIGHTBOX
+     ========================================================================== -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title" hidden>
+  <div class="lb__bar">
+    <div>
+      <p class="lb__title" id="lb-title"></p>
+      <p class="lb__sub" id="lb-sub"></p>
+    </div>
+    <button class="lb__close" id="lb-close" type="button" aria-label="Zavřít galerii">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="lb__stage">
+    <button class="lb__nav lb__nav--prev" id="lb-prev" type="button" aria-label="Předchozí fotografie">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <img class="lb__img" id="lb-img" alt="">
+    <button class="lb__nav lb__nav--next" id="lb-next" type="button" aria-label="Další fotografie">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+  <div class="lb__foot">
+    <span class="num" id="lb-counter">1 / 1</span>
+    <span class="lb__dots" id="lb-dots"></span>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   Michal Řičica — site behaviour
+   Motion honours prefers-reduced-motion throughout.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ---------------------------------------------------------------- year */
+  var yearEl = $("#year");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  /* ------------------------------------------------- nav: solid on scroll */
+  var nav = $("#nav");
+  var hero = $(".hero");
+
+  if (nav && hero && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      nav.classList.toggle("is-solid", !entries[0].isIntersecting);
+    }, { rootMargin: "-70px 0px 0px 0px", threshold: 0 }).observe(hero);
+  }
+
+  /* ------------------------------- the scroll shot: paper -> full-bleed photo */
+  var shotRunway = $(".shot__runway");
+  var shotStage  = $(".shot__stage");
+
+  if (shotRunway && shotStage && !reduced.matches) {
+    // the picture is whole at --p:1; take it back to a small plate and let
+    // the scroll position open it again
+    var shotTicking = false;
+
+    var paintShot = function () {
+      shotTicking = false;
+
+      var box = shotRunway.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var travel = box.height - shotStage.offsetHeight;   // px the stage stays pinned
+      if (travel <= 0) { shotStage.style.setProperty("--p", "1"); return; }
+
+      // the plate starts opening the moment the section edges into view — one
+      // viewport before it pins — so the first flick of scroll already moves it,
+      // and it reaches full bleed a little after it has pinned
+      var span = vh + travel * 0.4;
+      var t = (vh - box.top) / span;
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      // easeInOutQuad — slow to part, quick through the middle, soft to settle
+      var p = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+      shotStage.style.setProperty("--p", p.toFixed(4));
+    };
+
+    var queueShot = function () {
+      if (shotTicking) return;
+      shotTicking = true;
+      window.requestAnimationFrame(paintShot);
+    };
+
+    paintShot();
+    window.addEventListener("scroll", queueShot, { passive: true });
+    window.addEventListener("resize", queueShot);
+    window.addEventListener("orientationchange", queueShot);
+    window.addEventListener("load", paintShot);
+  }
+
+  /* ------------------------------------------------------ nav: scroll spy */
+  var navLinks = $$(".nav__menu .nav__link");
+  var spyTargets = navLinks
+    .map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); })
+    .filter(Boolean);
+
+  if (spyTargets.length && "IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        navLinks.forEach(function (a) {
+          a.classList.toggle("is-active", a.getAttribute("href") === "#" + e.target.id);
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    spyTargets.forEach(function (t) { spy.observe(t); });
+  }
+
+  /* ----------------------------------------------------- nav: mobile menu */
+  var burger = $("#burger");
+  var menu = $("#menu");
+
+  function setMenu(open) {
+    document.body.classList.toggle("menu-open", open);
+    if (burger) {
+      burger.setAttribute("aria-expanded", String(open));
+      burger.setAttribute("aria-label", open ? "Zavřít menu" : "Otevřít menu");
+    }
+  }
+
+  if (burger && menu) {
+    burger.addEventListener("click", function () {
+      setMenu(!document.body.classList.contains("menu-open"));
+    });
+    menu.addEventListener("click", function (e) {
+      if (e.target.closest(".nav__link")) setMenu(false);
+    });
+  }
+
+  /* --------------------------------------------------------- scroll reveal */
+  var revealables = $$(".reveal");
+
+  if (reduced.matches || !("IntersectionObserver" in window)) {
+    revealables.forEach(function (el) { el.classList.add("is-in"); });
+  } else {
+    var revealer = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-in");
+        obs.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    revealables.forEach(function (el) { revealer.observe(el); });
+  }
+
+  /* -------------------------------------------------------- work filtering */
+  var filters = $$(".filter");
+  var works = $$(".work");
+
+  filters.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var want = btn.dataset.filter;
+
+      filters.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+
+      works.forEach(function (card) {
+        var show = want === "all" || card.dataset.cat === want;
+
+        if (show) {
+          card.classList.remove("is-gone");
+          // flush the display change so the fade back in has a start state
+          void card.offsetWidth;
+          card.classList.remove("is-out");
+        } else {
+          card.classList.add("is-out");
+          if (reduced.matches) {
+            card.classList.add("is-gone");
+          } else {
+            window.setTimeout(function () {
+              if (card.classList.contains("is-out")) card.classList.add("is-gone");
+            }, 340);
+          }
+        }
+      });
+    });
+  });
+
+  /* ------------------------------------------- work: a few, then the rest */
+  var moreBtn = $("#works-more");
+
+  if (moreBtn) {
+    var extras = works.filter(function (card) { return !card.hasAttribute("data-initial"); });
+    extras.forEach(function (card) { card.classList.add("is-gone"); });
+
+    var removeMoreBtn = function () {
+      if (moreBtn.parentElement) moreBtn.parentElement.remove();
+    };
+
+    moreBtn.addEventListener("click", function () {
+      extras.forEach(function (card) {
+        card.classList.remove("is-gone");
+        void card.offsetWidth;
+        card.classList.remove("is-out");
+      });
+      removeMoreBtn();
+    });
+
+    filters.forEach(function (btn) {
+      btn.addEventListener("click", removeMoreBtn);
+    });
+  }
+
+  /* ---------------------------------------------------------- the lightbox */
+  var lb        = $("#lb");
+  var lbImg     = $("#lb-img");
+  var lbTitle   = $("#lb-title");
+  var lbSub     = $("#lb-sub");
+  var lbCounter = $("#lb-counter");
+  var lbDots    = $("#lb-dots");
+  var lbClose   = $("#lb-close");
+  var lbPrev    = $("#lb-prev");
+  var lbNext    = $("#lb-next");
+
+  var gallery = [];   // [{src, alt}]
+  var index   = 0;
+  var lastFocused = null;
+
+  function preload(src) { if (src) { var i = new Image(); i.src = src; } }
+
+  function paintDots() {
+    lbDots.innerHTML = "";
+    if (gallery.length < 2) return;
+    gallery.forEach(function (_, i) {
+      var d = document.createElement("span");
+      d.className = "lb__dot" + (i === index ? " is-on" : "");
+      lbDots.appendChild(d);
+    });
+  }
+
+  function show(i) {
+    if (!gallery.length) return;
+    index = (i + gallery.length) % gallery.length;
+    var item = gallery[index];
+
+    lbImg.classList.remove("is-ready");
+    lbImg.src = item.src;
+    lbImg.alt = item.alt || "";
+
+    if (lbImg.complete) {
+      lbImg.classList.add("is-ready");
+    } else {
+      lbImg.onload = function () { lbImg.classList.add("is-ready"); };
+    }
+
+    lbCounter.textContent = (index + 1) + " / " + gallery.length;
+    paintDots();
+
+    preload(gallery[(index + 1) % gallery.length].src);
+    preload(gallery[(index - 1 + gallery.length) % gallery.length].src);
+  }
+
+  function openLb(items, title, sub, startAt) {
+    if (!items || !items.length) return;
+    gallery = items;
+    lastFocused = document.activeElement;
+
+    lbTitle.textContent = title || "";
+    lbSub.textContent = sub || "";
+
+    var multi = items.length > 1;
+    lbPrev.hidden = !multi;
+    lbNext.hidden = !multi;
+    lbCounter.hidden = !multi;
+
+    lb.hidden = false;
+    document.body.classList.add("is-locked");
+    // force a reflow so the opacity transition actually runs
+    void lb.offsetWidth;
+    lb.classList.add("is-open");
+
+    show(startAt || 0);
+    lbClose.focus();
+  }
+
+  var closeTimer = null;
+  function closeLb() {
+    lb.classList.remove("is-open");
+    document.body.classList.remove("is-locked");
+    window.clearTimeout(closeTimer);
+    closeTimer = window.setTimeout(function () {
+      lb.hidden = true;
+      lbImg.removeAttribute("src");
+      lbImg.alt = "";
+    }, reduced.matches ? 0 : 400);
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  lbClose.addEventListener("click", closeLb);
+  lbPrev.addEventListener("click", function () { show(index - 1); });
+  lbNext.addEventListener("click", function () { show(index + 1); });
+
+  lb.addEventListener("click", function (e) {
+    if (e.target === lb || e.target.classList.contains("lb__stage")) closeLb();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (lb.hidden) return;
+    if (e.key === "Escape") { closeLb(); return; }
+    if (gallery.length < 2) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); show(index + 1); }
+    if (e.key === "ArrowLeft")  { e.preventDefault(); show(index - 1); }
+  });
+
+  // keep tab focus inside the dialog while it is open
+  lb.addEventListener("keydown", function (e) {
+    if (e.key !== "Tab") return;
+    var focusables = $$("button:not([hidden])", lb);
+    if (!focusables.length) return;
+    var first = focusables[0];
+    var last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  /* open from a project card */
+  $$(".work__btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var srcs = (btn.dataset.images || "").split("|").filter(Boolean);
+      var alt = btn.dataset.alt || btn.dataset.title || "";
+      openLb(
+        srcs.map(function (src, i) {
+          return { src: src, alt: srcs.length > 1 ? alt + " (" + (i + 1) + " z " + srcs.length + ")" : alt };
+        }),
+        btn.dataset.title,
+        btn.dataset.catLabel + (btn.dataset.note ? " · " + btn.dataset.note : ""),
+        parseInt(btn.dataset.start, 10) || 0
+      );
+    });
+  });
+
+  /* open from the workshop interlude — the whole set, in one sequence */
+  var dilnaShots = [
+    { src: "assets/img/michal-ricica-andel-02.jpg",
+      alt: "Michal Řičica stojí ve své dílně vedle vyřezávané dřevěné sochy anděla" },
+    { src: "assets/img/michal-ricica-andel-03.jpg",
+      alt: "Michal Řičica ve své dílně, ruka položená na křídle vyřezávaného anděla" },
+    { src: "assets/img/michal-ricica-andel-01.jpg",
+      alt: "Michal Řičica vedle vyřezávané sochy anděla v životní velikosti" },
+    { src: "assets/img/michal-ricica-portret-01.jpg",
+      alt: "Michal Řičica ve své truhlářské dílně na Spálené v Praze" },
+    { src: "assets/img/dilna-michal-ricica-01.jpg",
+      alt: "Michal Řičica ručně opracovává dřevo u ponku ve své pražské dílně" },
+    { src: "assets/img/dilna-michal-ricica-03.jpg",
+      alt: "Michal Řičica pracuje na desce stolu položené na kozách uprostřed dílny" },
+    { src: "assets/img/dilna-michal-ricica-02.jpg",
+      alt: "Michal Řičica ručně dokončuje povrch dřevěné skříňky na pracovním ponku" }
+  ];
+
+  $$(".dilna-open").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      openLb(
+        dilnaShots,
+        "Dílna — Spálená 9, Praha 1",
+        "Michal Řičica při práci",
+        parseInt(btn.dataset.index, 10) || 0
+      );
+    });
+  });
+
+  /* open from the case study — captions belong to these five photographs */
+  var bilek = $$(".case__stack img").map(function (img) {
+    return { src: img.getAttribute("src"), alt: img.getAttribute("alt") };
+  });
+
+  $$(".case-open").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      openLb(
+        bilek,
+        "František Bílek: Poslední večeře",
+        "Restaurování · Galerie hlavního města Prahy",
+        parseInt(btn.dataset.index, 10) || 0
+      );
+    });
+  });
+
+  /* ------------------------------------------------------------- accordion */
+  $$(".acc__btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var panel = document.getElementById(btn.getAttribute("aria-controls"));
+      var open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!open));
+      if (panel) panel.dataset.open = String(!open);
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
