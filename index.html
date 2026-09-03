@@ -699,6 +699,18 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   .works.is-flat .work{grid-column:span 2}
 }
 
+/* před / po — the pair takes a whole row and splits it down the middle, so
+   each frame lands on exactly the width a single featured plate had */
+.works .work--pair,
+.works.is-flat .work--pair{grid-column:1/-1}
+.pair{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(1.25rem,2vw,2rem);
+}
+@media (max-width:640px){
+  .pair{gap:.55rem}
+}
+
 .works__sep{
   grid-column:1/-1;
   display:flex;align-items:center;gap:1.1rem;
@@ -756,6 +768,18 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
 .work__count svg{width:.8rem;height:.8rem}
 @media (hover:none){
   .work__count{opacity:1;transform:none}
+}
+/* the před / po stamp stays put — it labels the photograph, it is not a hint */
+.work__stage{
+  position:absolute;left:.85rem;top:.85rem;z-index:2;
+  display:inline-flex;align-items:center;
+  padding:.35rem .7rem;border-radius:999px;
+  background:rgba(30,23,19,.72);color:var(--paper);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+}
+@media (max-width:640px){
+  .work__stage{left:.5rem;top:.5rem;padding:.28rem .55rem;font-size:.6rem}
 }
 @media (max-width:620px){
   .work__meta{flex-direction:column;align-items:flex-start;gap:.3rem}
@@ -1436,10 +1460,12 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
      DÍLO — projects. Each card carries its own gallery in data-images;
      the lightbox reads it from there. To edit a project, edit this block only.
 
-     The first six cards (work--feature) are the ones the page shows; everything
-     after the divider (work--archive) stays folded away until "Zobrazit všech…"
-     is pressed. To promote a project, move its <article> above the divider and
-     swap its class — the JS counts, it does not care which project is where.
+     The first three cards (work--feature work--pair) are the ones the page
+     shows — each one a před / po row of two frames; everything after the
+     divider (work--archive) stays folded away until "Zobrazit všech…" is
+     pressed. To promote a project, move its <article> above the divider and
+     swap its class — the JS counts (FEATURED), it does not care which project
+     is where; keep FEATURED equal to the number of cards above the divider.
      ========================================================================== -->
 <section class="section" id="dilo">
   <div class="container">
@@ -1464,72 +1490,119 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
     </div>
 
     <div class="works" id="works">
-      <article class="work work--feature reveal" data-cat="restaurovani" style="--d:0.00s">
-        <button class="work__btn" type="button"
-                data-title="Komoda, klášter Znojemské Hradiště"
-                data-cat-label="Restaurování"
-                data-note="Restaurování mobiliáře klášterního interiéru."
-                data-alt="Restaurovaná komoda z kláštera Znojemské Hradiště"
-                data-start="1"
-                data-images="assets/img/komoda-klaster-znojemske-hradiste-01.jpg|assets/img/komoda-klaster-znojemske-hradiste-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/komoda-klaster-znojemske-hradiste-02.jpg" alt="Restaurovaná komoda z kláštera Znojemské Hradiště" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
+      <article class="work work--feature work--pair reveal" data-cat="restaurovani" style="--d:0.00s">
+        <div class="pair">
+          <button class="work__btn pair__side" type="button"
+                  data-title="Komoda, klášter Znojemské Hradiště"
+                  data-cat-label="Restaurování"
+                  data-note="Restaurování mobiliáře klášterního interiéru."
+                  data-alt="Restaurovaná komoda z kláštera Znojemské Hradiště"
+                  data-start="0"
+                  data-images="assets/img/komoda-klaster-znojemske-hradiste-01.jpg|assets/img/komoda-klaster-znojemske-hradiste-02.jpg">
+            <span class="work__frame">
+              <img src="assets/img/komoda-klaster-znojemske-hradiste-01.jpg" alt="Komoda z kláštera Znojemské Hradiště v rozebraném stavu před restaurováním" width="1400" height="944" loading="lazy" decoding="async">
+              <span class="work__stage">Před</span>
             </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Komoda, klášter Znojemské Hradiště</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování mobiliáře klášterního interiéru.</span>
-        </button>
-      </article>
-      <article class="work work--feature reveal" data-cat="restaurovani" style="--d:0.07s">
-        <button class="work__btn" type="button"
-                data-title="Kaple Trauttmannsdorfského paláce"
-                data-cat-label="Restaurování"
-                data-note="Restaurování dřevěného mobiliáře a vybavení palácové kaple."
-                data-alt="Restaurovaný dřevěný interiér kaple Trauttmannsdorfského paláce"
-                data-start="2"
-                data-images="assets/img/kaple-trauttmannsdorfskeho-palace-01.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-02.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-03.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-04.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-05.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-06.jpg">
-          <span class="work__frame">
-            <img src="assets/img/kaple-trauttmannsdorfskeho-palace-03.jpg" alt="Restaurovaný dřevěný interiér kaple Trauttmannsdorfského paláce" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              6 fotografií
+          </button>
+          <button class="work__btn pair__side" type="button"
+                  data-title="Komoda, klášter Znojemské Hradiště"
+                  data-cat-label="Restaurování"
+                  data-note="Restaurování mobiliáře klášterního interiéru."
+                  data-alt="Restaurovaná komoda z kláštera Znojemské Hradiště"
+                  data-start="1"
+                  data-images="assets/img/komoda-klaster-znojemske-hradiste-01.jpg|assets/img/komoda-klaster-znojemske-hradiste-02.jpg">
+            <span class="work__frame">
+              <img src="assets/img/komoda-klaster-znojemske-hradiste-02.jpg" alt="Komoda z kláštera Znojemské Hradiště po restaurování a vyleštění" width="1400" height="944" loading="lazy" decoding="async">
+              <span class="work__stage">Po</span>
+              <span class="work__count">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+                2 fotografie
+              </span>
             </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Kaple Trauttmannsdorfského paláce</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Restaurování dřevěného mobiliáře a vybavení palácové kaple.</span>
-        </button>
+          </button>
+        </div>
+        <div class="work__meta">
+          <span class="work__title">Komoda, klášter Znojemské Hradiště</span>
+          <span class="work__cat">Restaurování</span>
+        </div>
+        <p class="work__note">Restaurování mobiliáře klášterního interiéru.</p>
       </article>
-      <article class="work work--feature reveal" data-cat="restaurovani" style="--d:0.00s">
-        <button class="work__btn" type="button"
-                data-title="Vrata, Stará Boleslav"
-                data-cat-label="Restaurování"
-                data-note="Repase historických vrat."
-                data-alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi"
-                data-images="assets/img/vrata-stara-boleslav-01.jpg|assets/img/vrata-stara-boleslav-02.jpg">
-          <span class="work__frame">
-            <img src="assets/img/vrata-stara-boleslav-01.jpg" alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi" width="1400" height="944" loading="lazy" decoding="async">
-            <span class="work__count">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
-              2 fotografie
+      <article class="work work--feature work--pair reveal" data-cat="restaurovani" style="--d:0.00s">
+        <div class="pair">
+          <button class="work__btn pair__side" type="button"
+                  data-title="Kaple Trauttmannsdorfského paláce"
+                  data-cat-label="Restaurování"
+                  data-note="Restaurování dřevěného mobiliáře a vybavení palácové kaple."
+                  data-alt="Restaurovaný dřevěný interiér kaple Trauttmannsdorfského paláce"
+                  data-start="0"
+                  data-images="assets/img/kaple-trauttmannsdorfskeho-palace-01.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-02.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-03.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-04.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-05.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-06.jpg">
+            <span class="work__frame">
+              <img src="assets/img/kaple-trauttmannsdorfskeho-palace-01.jpg" alt="Dřevěné vybavení kaple Trauttmannsdorfského paláce před restaurováním" width="1400" height="944" loading="lazy" decoding="async">
+              <span class="work__stage">Před</span>
             </span>
-          </span>
-          <span class="work__meta">
-            <span class="work__title">Vrata, Stará Boleslav</span>
-            <span class="work__cat">Restaurování</span>
-          </span>
-          <span class="work__note">Repase historických vrat.</span>
-        </button>
+          </button>
+          <button class="work__btn pair__side" type="button"
+                  data-title="Kaple Trauttmannsdorfského paláce"
+                  data-cat-label="Restaurování"
+                  data-note="Restaurování dřevěného mobiliáře a vybavení palácové kaple."
+                  data-alt="Restaurovaný dřevěný interiér kaple Trauttmannsdorfského paláce"
+                  data-start="1"
+                  data-images="assets/img/kaple-trauttmannsdorfskeho-palace-01.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-02.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-03.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-04.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-05.jpg|assets/img/kaple-trauttmannsdorfskeho-palace-06.jpg">
+            <span class="work__frame">
+              <img src="assets/img/kaple-trauttmannsdorfskeho-palace-02.jpg" alt="Dřevěné vybavení kaple Trauttmannsdorfského paláce v průběhu restaurování" width="1400" height="944" loading="lazy" decoding="async">
+              <span class="work__stage">Po</span>
+              <span class="work__count">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+                6 fotografií
+              </span>
+            </span>
+          </button>
+        </div>
+        <div class="work__meta">
+          <span class="work__title">Kaple Trauttmannsdorfského paláce</span>
+          <span class="work__cat">Restaurování</span>
+        </div>
+        <p class="work__note">Restaurování dřevěného mobiliáře a vybavení palácové kaple.</p>
       </article>
-      <article class="work work--feature reveal" data-cat="repliky" style="--d:0.07s">
+      <article class="work work--feature work--pair reveal" data-cat="restaurovani" style="--d:0.00s">
+        <div class="pair">
+          <button class="work__btn pair__side" type="button"
+                  data-title="Vrata, Stará Boleslav"
+                  data-cat-label="Restaurování"
+                  data-note="Repase historických vrat."
+                  data-alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi"
+                  data-start="0"
+                  data-images="assets/img/vrata-stara-boleslav-01.jpg|assets/img/vrata-stara-boleslav-02.jpg">
+            <span class="work__frame">
+              <img src="assets/img/vrata-stara-boleslav-01.jpg" alt="Historická vrata ve Staré Boleslavi před repasí, zvětralé dubové dřevo" width="1400" height="944" loading="lazy" decoding="async">
+              <span class="work__stage">Před</span>
+            </span>
+          </button>
+          <button class="work__btn pair__side" type="button"
+                  data-title="Vrata, Stará Boleslav"
+                  data-cat-label="Restaurování"
+                  data-note="Repase historických vrat."
+                  data-alt="Restaurovaná historická dřevěná vrata ve Staré Boleslavi"
+                  data-start="1"
+                  data-images="assets/img/vrata-stara-boleslav-01.jpg|assets/img/vrata-stara-boleslav-02.jpg">
+            <span class="work__frame">
+              <img src="assets/img/vrata-stara-boleslav-02.jpg" alt="Historická vrata ve Staré Boleslavi po repasi a novém povrchu" width="1400" height="944" loading="lazy" decoding="async">
+              <span class="work__stage">Po</span>
+              <span class="work__count">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18v12H3zM8 7V5h8v2"/></svg>
+                2 fotografie
+              </span>
+            </span>
+          </button>
+        </div>
+        <div class="work__meta">
+          <span class="work__title">Vrata, Stará Boleslav</span>
+          <span class="work__cat">Restaurování</span>
+        </div>
+        <p class="work__note">Repase historických vrat.</p>
+      </article>
+      <div class="works__sep is-gone" id="works-sep" aria-hidden="true"><span>Kompletní archiv</span></div>
+      <article class="work work--archive is-gone reveal" data-cat="repliky" style="--d:0.00s">
         <button class="work__btn" type="button"
                 data-title="Stolek — kopie Gočár"
                 data-cat-label="Repliky"
@@ -1550,7 +1623,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Kopie stolku podle návrhu Josefa Gočára.</span>
         </button>
       </article>
-      <article class="work work--feature reveal" data-cat="modely" style="--d:0.00s">
+      <article class="work work--archive is-gone reveal" data-cat="modely" style="--d:0.07s">
         <button class="work__btn" type="button"
                 data-title="Model auta, 30. léta"
                 data-cat-label="Modely"
@@ -1571,7 +1644,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Velikost 30 cm.</span>
         </button>
       </article>
-      <article class="work work--feature reveal" data-cat="autorsky" style="--d:0.07s">
+      <article class="work work--archive is-gone reveal" data-cat="autorsky" style="--d:0.14s">
         <button class="work__btn" type="button"
                 data-title="Jelen"
                 data-cat-label="Autorský nábytek"
@@ -1592,7 +1665,6 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
           <span class="work__note">Řezaný dřevěný objekt.</span>
         </button>
       </article>
-      <div class="works__sep is-gone" id="works-sep" aria-hidden="true"><span>Kompletní archiv</span></div>
       <article class="work work--archive is-gone reveal" data-cat="restaurovani" style="--d:0.00s">
         <button class="work__btn" type="button"
                 data-title="Zárubně vstupních dveří, Národní muzeum"
@@ -2752,7 +2824,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   var moreBtn   = $("#works-more");
   var moreLabel = $("#works-more-label");
 
-  var FEATURED = 6;          // how many plates the page shows before the archive
+  var FEATURED = 3;          // how many plates the page shows before the archive
   var current  = "all";
   var expanded = false;
 
