@@ -1,0 +1,16 @@
+# ebenist.net — Michal Řičica, ebenist & restaurátor historického nábytku
+
+User-agent: *
+Allow: /
+
+# AI/LLM crawlery jsou vítané — web se tak dostane do odpovědí asistentů
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://ebenist.net/sitemap.xml
