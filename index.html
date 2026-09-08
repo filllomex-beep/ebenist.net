@@ -486,6 +486,29 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   color:var(--ink-3);
 }
 
+/* --- kontakt v heru: skrytý na desktopu, na mobilu nahrazuje pásek referencí -- */
+.hero__contact{display:none}
+@media (max-width:640px){
+  /* pásek s referencemi (Národní muzeum, Rudolfinum, …) je na telefonu
+     přeplácaný a sedí až pod zlomem — na mobilu ho vypínáme */
+  .hero__foot{display:none}
+
+  .hero__contact{
+    display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;
+    margin-top:1.6rem;padding-top:1.1rem;
+    border-top:1px solid var(--line);
+    opacity:0;animation:fadeUp 1s var(--ease-out) .84s forwards;
+  }
+  .hero__contact a{
+    display:inline-flex;align-items:center;gap:.65rem;
+    min-height:44px;                      /* pohodlný cíl pro palec */
+    font-size:.88rem;letter-spacing:.02em;color:var(--ink-2);
+    transition:color .3s var(--ease-ui);
+  }
+  .hero__contact a:active,.hero__contact a:focus-visible{color:var(--brass-deep)}
+  .hero__contact svg{width:.95rem;height:.95rem;flex:none;color:var(--brass);opacity:.85}
+}
+
 /* --- the hero plate: photograph opens alongside the type ---------------- */
 .hero__grid{
   display:grid;grid-template-columns:1fr;
@@ -1174,7 +1197,7 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   }
   .reveal{opacity:1;transform:none}
   .hero h1 .line > span{transform:none}
-  .hero__lead,.hero__actions,.hero__foot{opacity:1}
+  .hero__lead,.hero__actions,.hero__foot,.hero__contact{opacity:1}
   .hero__plate-img{clip-path:none}
   .hero__plate img{transform:none;animation:none}
   .hero__plate figcaption{opacity:1}
@@ -1269,6 +1292,19 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
           <a class="hero__alt" href="#kontakt">Domluvit prohlídku</a>
+        </p>
+
+        <!-- Kontakt přímo v heru — jen na mobilu, kde je patička s referencemi
+             skrytá a telefon je hlavní způsob, jak se ozvat. -->
+        <p class="hero__contact">
+          <a href="tel:+420777183280">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1Z"/></svg>
+            <span>+420 777 183 280</span>
+          </a>
+          <a href="mailto:ebenist@centrum.cz">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18v12H3z"/><path d="m3 7 9 6 9-6"/></svg>
+            <span>ebenist@centrum.cz</span>
+          </a>
         </p>
       </div>
 
