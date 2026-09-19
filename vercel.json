@@ -1,0 +1,19 @@
+{
+  "redirects": [
+    { "source": "/sluzby{/}?", "destination": "/#sluzby", "permanent": true },
+    { "source": "/kontakt{/}?", "destination": "/#kontakt", "permanent": true },
+    { "source": "/home{/}?", "destination": "/", "permanent": true },
+    { "source": "/(restaurovani|modely|vyroba-replik|vyroba-autorskeho-nabytku){/}?", "destination": "/#dilo", "permanent": true },
+    { "source": "/category/:path*", "destination": "/#dilo", "permanent": true },
+    { "source": "/author/:path*", "destination": "/#zivotopis", "permanent": true },
+
+    { "source": "/index.php", "has": [{ "type": "query", "key": "section", "value": "kontakt" }], "destination": "/#kontakt", "permanent": true },
+    { "source": "/index.php", "has": [{ "type": "query", "key": "section", "value": "zivotopis" }], "destination": "/#zivotopis", "permanent": true },
+    { "source": "/index.php", "has": [{ "type": "query", "key": "section", "value": "reference" }], "destination": "/#reference", "permanent": true },
+    { "source": "/index.php", "has": [{ "type": "query", "key": "section", "value": "home" }], "destination": "/", "permanent": true },
+    { "source": "/index.php", "has": [{ "type": "query", "key": "section" }], "destination": "/#dilo", "permanent": true },
+    { "source": "/index.php", "destination": "/", "permanent": true },
+
+    { "source": "/wp-sitemap.xml", "destination": "/sitemap.xml", "permanent": true }
+  ]
+}
