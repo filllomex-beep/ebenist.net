@@ -4,8 +4,8 @@
     { "source": "/kontakt{/}?", "destination": "/#kontakt", "permanent": true },
     { "source": "/home{/}?", "destination": "/", "permanent": true },
     { "source": "/(restaurovani|modely|vyroba-replik|vyroba-autorskeho-nabytku){/}?", "destination": "/#dilo", "permanent": true },
-    { "source": "/category/:path*", "destination": "/#dilo", "permanent": true },
-    { "source": "/author/:path*", "destination": "/#zivotopis", "permanent": true },
+    { "source": "/category/(.*)", "destination": "/#dilo", "permanent": true },
+    { "source": "/author/(.*)", "destination": "/#zivotopis", "permanent": true },
 
     { "source": "/index.php", "has": [{ "type": "query", "key": "section", "value": "kontakt" }], "destination": "/#kontakt", "permanent": true },
     { "source": "/index.php", "has": [{ "type": "query", "key": "section", "value": "zivotopis" }], "destination": "/#zivotopis", "permanent": true },
