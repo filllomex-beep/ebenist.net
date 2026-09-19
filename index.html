@@ -2744,6 +2744,36 @@ body.menu-open .nav__burger span::after{transform:rotate(-45deg)}
   var yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
+  /* ------------------------------------------- land on #section from a link */
+  // old URLs (/sluzby/, /kontakt/…) redirect to /#section; the browser's own
+  // jump fires before fonts and the scroll shot settle, so repeat it instantly
+  // once the layout is final — unless the visitor has already started scrolling
+  var hashTarget = null;
+  try { hashTarget = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (e) {}
+
+  if (hashTarget) {
+    var userMoved = false;
+    var markMoved = function () { userMoved = true; };
+    ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (ev) {
+      window.addEventListener(ev, markMoved, { once: true, passive: true });
+    });
+
+    var landOnHash = function () {
+      if (userMoved) return;
+      var root = document.documentElement;
+      root.style.scrollBehavior = "auto";
+      hashTarget.scrollIntoView({ block: "start", behavior: "auto" });
+      root.style.scrollBehavior = "";
+    };
+
+    landOnHash();
+    window.addEventListener("load", function () {
+      landOnHash();
+      window.setTimeout(landOnHash, 150);
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(landOnHash);
+  }
+
   /* ------------------------------------------------- nav: solid on scroll */
   var nav = $("#nav");
   var hero = $(".hero");
